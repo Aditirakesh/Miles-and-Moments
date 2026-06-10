@@ -37,7 +37,7 @@ A responsive travel blog and interactive city guide built as a Web Development p
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/Aditirakesh/miles-and-moments.git
+   git clone https://github.com/Aditirakesh/Miles-and-Moments.git
    ```
 2. Navigate to the project folder and open `new.html` in your web browser:
    ```bash
