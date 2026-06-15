@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="destination.css">
+    <script src="theme.js" defer></script>
+    <script src="destinations-data.js"></script>
+    <title>City Guide | Miles & Moments</title>
+</head>
+
+<body>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <img src="logo1.jpg" alt="Logo" class="header-logo">
+                <div class="brand-text">
+                    <span class="brand-title">Miles & Moments</span>
+                    <span class="brand-tagline">Explore, Dream, Discover</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="new1.html" class="nav-link" id="nav-home">Home</a>
+                <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+                <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
+                <a href="about.html" class="nav-link" id="nav-about">About</a>
+                <a href="services.html" class="nav-link" id="nav-services">Services</a>
+                <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main id="destination-content">
+        <!-- Loader State (Visible while loading data) -->
+        <div class="loader-container">
+            <div class="spinner"></div>
+            <p>Loading travel guide details...</p>
+        </div>
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Miles & Moments</h3>
+                <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel
+                    planning.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Facebook</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="new1.html">Home</a></li>
+                    <li><a href="new.html">Destinations</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Connected</h4>
+                <p>Subscribe to our newsletter for custom tips, itineraries, and stories.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Miles & Moments. All Rights Reserved. Semester 2 Web Development Project.</p>
+        </div>
+    </footer>
+
+    <!-- Client-side Router and Template Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get city identifier from query parameters (e.g. ?city=paris)
+            const urlParams = new URLSearchParams(window.location.search);
+            const cityKey = urlParams.get('city');
+
+            // Redirect back to explorer page if city is missing or not registered
+            if (!cityKey || !destinationsData[cityKey.toLowerCase()]) {
+                window.location.href = 'new.html';
+                return;
+            }
+
+            const cityData = destinationsData[cityKey.toLowerCase()];
+
+            // Set Page Title
+            document.title = `${cityData.name} Travel Guide | Miles & Moments`;
+
+            // Build dynamic template
+            const mainContainer = document.getElementById('destination-content');
+            mainContainer.innerHTML = `
+                <!-- Dynamic Hero Banner -->
+                <section class="dest-hero" style="background-image: linear-gradient(rgba(11, 19, 43, 0.5), rgba(11, 19, 43, 0.75)), url('${cityData.heroImage}');">
+                    <div class="dest-hero-content">
+                        <div class="region-badge">${cityData.region}</div>
+                        <h1>${cityData.name}</h1>
+                        <p class="tagline">${cityData.tagline}</p>
+                    </div>
+                </section>
+
+                <div class="dest-container">
+                    <!-- Left Column: Details -->
+                    <div class="dest-main">
+                        <section class="intro-section">
+                            <h2>About the Destination</h2>
+                            <p>${cityData.description}</p>
+                        </section>
+
+                        <section class="highlights-section">
+                            <h2>Must-See Highlights</h2>
+                            <div class="highlights-grid">
+                                ${cityData.highlights.map(h => `
+                                    <div class="highlight-item">
+                                        <div class="highlight-icon">${h.icon}</div>
+                                        <div class="highlight-info">
+                                            <h3>${h.name}</h3>
+                                            <p>${h.desc}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+
+                        <section class="itinerary-section">
+                            <h2>Suggested 3-Day Itinerary</h2>
+                            <p class="itinerary-intro">Here is a curated day-by-day plan to help you discover the absolute best parts of ${cityData.name}.</p>
+                            
+                            <div class="tabs-header">
+                                ${cityData.itinerary.map((it, idx) => `
+                                    <button class="tab-btn ${idx === 0 ? 'active' : ''}" onclick="switchItineraryTab(event, 'day-${it.day}')">
+                                        Day ${it.day}
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <div class="tabs-content">
+                                ${cityData.itinerary.map((it, idx) => `
+                                    <div id="day-${it.day}" class="tab-pane ${idx === 0 ? 'active' : ''}">
+                                        <h3>${it.title}</h3>
+                                        <ul class="activity-list">
+                                            ${it.activities.map(act => `
+                                                <li>
+                                                    <span class="bullet">📍</span>
+                                                    <p>${act}</p>
+                                                </li>
+                                            `).join('')}
+                                        </ul>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Right Column: Sidebar Stats & Interactive Packing Checklist -->
+                    <aside class="dest-sidebar">
+                        <div class="sidebar-card stats-card">
+                            <h3>Quick Facts</h3>
+                            <div class="stat-row">
+                                <span class="stat-label">⏱️ Recommended Stay</span>
+                                <span class="stat-val">${cityData.duration}</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">☀️ Best Time to Visit</span>
+                                <span class="stat-val">${cityData.bestTime}</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">🪙 Local Currency</span>
+                                <span class="stat-val">${cityData.currency}</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">🗣️ Language Spoken</span>
+                                <span class="stat-val">${cityData.language}</span>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card currency-card">
+                            <h3>Currency Converter</h3>
+                            <p>Calculate local exchange rates:</p>
+                            <div class="converter-box">
+                                <div class="converter-group">
+                                    <span class="converter-currency-label" id="from-label">INR (₹)</span>
+                                    <input type="number" id="from-amount" class="converter-input" value="1000" min="0">
+                                </div>
+                                <div class="converter-swap-container">
+                                    <button id="converter-swap-btn" class="converter-swap-btn">⇅ Swap</button>
+                                </div>
+                                <div class="converter-group">
+                                    <span class="converter-currency-label" id="to-label">${cityData.currencyCode === 'INR' ? 'USD ($)' : cityData.currency}</span>
+                                    <input type="number" id="to-amount" class="converter-input" value="0.00" min="0">
+                                </div>
+                                <div class="converter-rate-info">
+                                    --
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card checklist-card">
+                            <h3>Packing Checklist</h3>
+                            <p>Pre-travel suggestions tailored for ${cityData.name}:</p>
+                            <ul class="checklist-items">
+                                ${cityData.packing.map((item, idx) => `
+                                    <li>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" id="item-${idx}">
+                                            <span class="checkmark"></span>
+                                            <span class="item-text">${item}</span>
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="checklist-progress">
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" id="checklist-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span id="progress-text">0% Complete</span>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            `;
+
+            // Initialize checklist completion calculations
+            initChecklistProgress();
+
+            // Initialize currency converter widget
+            initCurrencyConverter(cityData);
+        });
+
+        // Toggle day tabs inside itinerary block
+        function switchItineraryTab(event, dayId) {
+            // Remove active classes
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+
+            // Set active class to selected elements
+            event.currentTarget.classList.add('active');
+            document.getElementById(dayId).classList.add('active');
+        }
+
+        // Handle interactive checklist progress calculating
+        function initChecklistProgress() {
+            const checkboxes = document.querySelectorAll('.checklist-items input[type="checkbox"]');
+            const progressBar = document.getElementById('checklist-progress-bar');
+            const progressText = document.getElementById('progress-text');
+
+            if (checkboxes.length === 0) return;
+
+            function updateProgress() {
+                const checkedCount = document.querySelectorAll('.checklist-items input[type="checkbox"]:checked').length;
+                const percentage = Math.round((checkedCount / checkboxes.length) * 100);
+
+                if (progressBar) progressBar.style.width = `${percentage}%`;
+                if (progressText) progressText.innerText = `${percentage}% Complete`;
+            }
+
+            checkboxes.forEach(box => {
+                box.addEventListener('change', updateProgress);
+            });
+
+            // Initial call
+            updateProgress();
+        }
+
+        // Handle currency converter updates and swapping
+        function initCurrencyConverter(cityData) {
+            const fromInput = document.getElementById('from-amount');
+            const toInput = document.getElementById('to-amount');
+            const swapBtn = document.getElementById('converter-swap-btn');
+            const fromLabel = document.getElementById('from-label');
+            const toLabel = document.getElementById('to-label');
+            const rateInfo = document.querySelector('.converter-rate-info');
+
+            if (!fromInput || !toInput || !swapBtn) return;
+
+            let isFromInr = true;
+            
+            // Set rates relative to INR (using USD as bridge: USD/INR is 83.5)
+            const inrToUsdRate = 1 / 83.5;
+            const inrToLocalRate = cityData.currencyCode === 'INR' ? inrToUsdRate : (cityData.exchangeRate / 83.5);
+            
+            const localName = cityData.currencyCode === 'INR' ? 'USD ($)' : cityData.currency;
+            const localCode = cityData.currencyCode === 'INR' ? 'USD' : cityData.currencyCode;
+            
+            const rate = inrToLocalRate;
+
+            function updateRates() {
+                const val = parseFloat(fromInput.value);
+                if (isNaN(val)) {
+                    toInput.value = '';
+                    return;
+                }
+
+                if (isFromInr) {
+                    toInput.value = (val * rate).toFixed(2);
+                } else {
+                    toInput.value = (val / rate).toFixed(2);
+                }
+            }
+
+            fromInput.addEventListener('input', updateRates);
+            
+            // Allow manual editing of 'to' input too, for reverse calculations when not swapped
+            toInput.addEventListener('input', () => {
+                const val = parseFloat(toInput.value);
+                if (isNaN(val)) {
+                    fromInput.value = '';
+                    return;
+                }
+
+                if (isFromInr) {
+                    fromInput.value = (val / rate).toFixed(2);
+                } else {
+                    fromInput.value = (val * rate).toFixed(2);
+                }
+            });
+
+            swapBtn.addEventListener('click', () => {
+                isFromInr = !isFromInr;
+                
+                // Swap labels
+                if (isFromInr) {
+                    fromLabel.textContent = 'INR (₹)';
+                    toLabel.textContent = localName;
+                    rateInfo.textContent = `1 INR = ${rate.toFixed(4)} ${localCode}`;
+                } else {
+                    fromLabel.textContent = localName;
+                    toLabel.textContent = 'INR (₹)';
+                    rateInfo.textContent = `1 ${localCode} = ${(1 / rate).toFixed(2)} INR`;
+                }
+
+                // Swap values
+                const temp = fromInput.value;
+                fromInput.value = toInput.value;
+                toInput.value = temp;
+
+                updateRates();
+            });
+
+            // Set initial rate label and trigger first calculation
+            rateInfo.textContent = `1 INR = ${rate.toFixed(4)} ${localCode}`;
+            updateRates();
+        }
+
+    </script>
+</body>
+
+</html>

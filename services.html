@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | Miles & Moments</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="services.css">
+    <script src="theme.js" defer></script>
+</head>
+<body>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <img src="logo1.jpg" alt="Logo" class="header-logo">
+                <div class="brand-text">
+                    <span class="brand-title">Miles & Moments</span>
+                    <span class="brand-tagline">Explore, Dream, Discover</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="new1.html" class="nav-link" id="nav-home">Home</a>
+                <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+                <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
+                <a href="about.html" class="nav-link" id="nav-about">About</a>
+                <a href="services.html" class="nav-link active" id="nav-services">Services</a>
+                <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="services-hero">
+            <div class="services-hero-content">
+                <h1>Travel Solutions <span>Miles & Moments</span></h1>
+                <p>From personalized itineraries to custom brand campaigns, we offer professional travel services designed to elevate your experiences.</p>
+            </div>
+        </section>
+
+        <!-- Services Catalog -->
+        <section class="catalog-section">
+            <div class="section-header">
+                <h2>How We Can Help You</h2>
+                <p>We provide specialized travel and media solutions tailored to individual adventurers and global lifestyle brands.</p>
+            </div>
+            <div class="catalog-grid">
+                <!-- Service 1 -->
+                <div class="catalog-card">
+                    <div class="catalog-icon">🗺️</div>
+                    <h3>Itinerary Design</h3>
+                    <p>Get a custom day-by-day travel plan including vetted local restaurants, transport routes, and off-the-beaten-path recommendations tailored to your pacing and travel style.</p>
+                    <a href="#packages" class="catalog-link">View Packages &rarr;</a>
+                </div>
+                <!-- Service 2 -->
+                <div class="catalog-card">
+                    <div class="catalog-icon">📷</div>
+                    <h3>Media & Photo Licensing</h3>
+                    <p>License high-resolution photography and travel footage from our editorial archives for digital magazines, tourism boards, websites, or print publications.</p>
+                    <a href="contact.html" class="catalog-link">Contact for Licensing &rarr;</a>
+                </div>
+                <!-- Service 3 -->
+                <div class="catalog-card">
+                    <div class="catalog-icon">🤝</div>
+                    <h3>Brand Partnerships</h3>
+                    <p>Collaborate with us to highlight your boutique hotel, destination agency, or travel equipment through authentic storytelling, high-quality reviews, and professional media coverage.</p>
+                    <a href="contact.html" class="catalog-link">Partner with Us &rarr;</a>
+                </div>
+                <!-- Service 4 -->
+                <div class="catalog-card">
+                    <div class="catalog-icon">📞</div>
+                    <h3>Travel Consultations</h3>
+                    <p>Book a 1-on-1 virtual call to ask questions about packing, visa processes, route optimization, and safety strategies before heading out on your journey.</p>
+                    <a href="contact.html" class="catalog-link">Schedule a Call &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Tiers Section -->
+        <section class="packages-section" id="packages">
+            <div class="packages-container">
+                <div class="section-header">
+                    <h2>Custom Planning Packages</h2>
+                    <p>Choose the level of custom planning you need to turn your dream trip into a stress-free reality.</p>
+                </div>
+                <div class="packages-grid">
+                    <!-- Basic Tier -->
+                    <div class="package-card">
+                        <h3>Self-Guided Explorer</h3>
+                        <div class="package-price">$29 <span>/ trip</span></div>
+                        <ul class="package-features">
+                            <li>3-Day Custom Itinerary</li>
+                            <li>Vetted Restaurant & Cafe list</li>
+                            <li>Standard Packing List Guide</li>
+                            <li>One Revision Request</li>
+                            <li>Delivery in 5 Business Days</li>
+                        </ul>
+                        <a href="contact.html?package=explorer" class="btn-package btn-package-outline">Choose Package</a>
+                    </div>
+                    <!-- Premium Tier (Popular) -->
+                    <div class="package-card popular">
+                        <span class="badge">Popular</span>
+                        <h3>Wanderlust Premium</h3>
+                        <div class="package-price">$79 <span>/ trip</span></div>
+                        <ul class="package-features">
+                            <li>7-Day Detailed Itinerary</li>
+                            <li>Interactive Transit/Route map</li>
+                            <li>Curated Local Packing Guide</li>
+                            <li>Custom Budget Blueprint</li>
+                            <li>Two Revision Requests</li>
+                            <li>Delivery in 3 Business Days</li>
+                        </ul>
+                        <a href="contact.html?package=wanderlust" class="btn-package btn-package-solid">Choose Package</a>
+                    </div>
+                    <!-- Elite Tier -->
+                    <div class="package-card">
+                        <h3>Global Nomad Elite</h3>
+                        <div class="package-price">$149 <span>/ trip</span></div>
+                        <ul class="package-features">
+                            <li>Up to 14-Day Custom Plan</li>
+                            <li>Dedicated Concierge Support</li>
+                            <li>1-on-1 Prep Video Call</li>
+                            <li>Private Google Map Integration</li>
+                            <li>Unlimited Revisions</li>
+                            <li>Delivery in 24 Hours</li>
+                        </ul>
+                        <a href="contact.html?package=nomad" class="btn-package btn-package-outline">Choose Package</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="services-cta">
+            <h2>Have a unique request?</h2>
+            <p>We build tailored consulting packages, host custom photography workshops, and develop bespoke marketing campaigns. Get in touch to tell us about your project!</p>
+            <a href="contact.html" class="btn-primary">Get in Touch</a>
+        </section>
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Miles & Moments</h3>
+                <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel planning.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Facebook</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="new1.html">Home</a></li>
+                    <li><a href="new.html">Destinations</a></li>
+                    <li><a href="quiz.html">Travel Quiz</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Connected</h4>
+                <p>Subscribe to our newsletter for custom tips, itineraries, and stories.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Miles & Moments. All Rights Reserved. Semester 2 Web Development Project.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

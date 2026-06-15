@@ -1,219 +1,498 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Miles & Moments</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="theme.js" defer></script>
+  <title>Explore Destinations | Miles & Moments</title>
 </head>
+
 <body>
-  <div class="division">
-    <div class="logo1">
-      <img src="logo1.jpg" width="80px" height="80px" >
-    </div>
-    <div class="up">
-    <h1>
-        Miles & Moments
-    </h1>
-    <p1>
-        Journey Beyond Boundaries - Explore, Dream, Discover.
-      </p1>
-    </div>
-    </div>
 
-    <div class="container">
-      <div class="menu-bar">
-        <ul>
-          <li></li>
-          <li><a href="new1.html">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <img src="logo1.jpg" alt="Logo" class="header-logo">
+        <div class="brand-text">
+          <span class="brand-title">Miles & Moments</span>
+          <span class="brand-tagline">Explore, Dream, Discover</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="new1.html" class="nav-link" id="nav-home">Home</a>
+        <a href="new.html" class="nav-link active" id="nav-explore">Explore</a>
+        <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
+        <a href="about.html" class="nav-link" id="nav-about">About</a>
+        <a href="services.html" class="nav-link" id="nav-services">Services</a>
+        <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+  <!-- Search and Filter Control Center -->
+  <section class="filter-section reveal">
+    <div class="filter-container-box">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchBar" placeholder="Search cities, attractions, vibes...">
+      </div>
+      
+      <div class="filter-chips">
+        <span class="filter-label">Region:</span>
+        <button class="filter-chip active" data-filter-type="region" data-val="all">All Regions</button>
+        <button class="filter-chip" data-filter-type="region" data-val="europe">Europe</button>
+        <button class="filter-chip" data-filter-type="region" data-val="asia">Asia</button>
+        <button class="filter-chip" data-filter-type="region" data-val="america">America</button>
+        <button class="filter-chip" data-filter-type="region" data-val="favorites">❤️ Favorites</button>
+      </div>
+
+      <div class="filter-chips">
+        <span class="filter-label">Stay:</span>
+        <button class="filter-chip active" data-filter-type="duration" data-val="all">Any Stay</button>
+        <button class="filter-chip" data-filter-type="duration" data-val="short">Short (2-3 Days)</button>
+        <button class="filter-chip" data-filter-type="duration" data-val="medium">Medium (3-5 Days)</button>
+        <button class="filter-chip" data-filter-type="duration" data-val="long">Long (5+ Days)</button>
       </div>
     </div>
-    
-    <div class="title">
-        <h1>
-            Europe
-        </h1>
+  </section>
+
+  <!-- Europe Region -->
+  <section class="region-section">
+    <div class="title reveal">
+      <h1>
+        Europe
+      </h1>
     </div>
-    
+
     <div class="card-container">
-        <div class="card">
-          <img src="paris-hd-8k-wallpaper-stock-photographic-image_853645-32979.jpeg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Paris</h3>
-            <p class="card-description">Paris is a city of timeless charm, where iconic landmarks, cozy cafes, and rich history create an unforgettable experience. It’s a perfect blend of art, culture, and romance.</p>
-            <a href="https://en.wikipedia.org/wiki/Paris">know more</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="rome.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Rome</h3>
-            <p class="card-description">Rome, the Eternal City, is a captivating blend of ancient history and vibrant modern life, with landmarks like the Colosseum, the Roman Forum, and the Vatican City. It offers a unique journey through time, where every corner reveals a piece of its rich cultural heritage.</p>
-            <a href="https://en.wikipedia.org/wiki/Rome">know more</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="vienna.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Vienna</h3>
-            <p class="card-description">Vienna, Austria's capital, is renowned for its imperial history, stunning palaces like the Schönbrunn and Hofburg, and its rich musical heritage, being home to composers like Mozart and Beethoven. The city beautifully blends classical elegance with modern innovation, making it a cultural hub of Europe.</p>
-            <a href="https://en.wikipedia.org/wiki/Vienna">know more</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="amsterdam.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Amsterdam</h3>
-            <p class="card-description">Amsterdam is a picturesque city known for its iconic canals, world-class museums, and vibrant cultural scene. With its historic architecture and laid-back atmosphere, it offers a perfect blend of charm and modernity.</p>
-            <a href="https://en.wikipedia.org/wiki/Amsterdam">know more</a>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="london.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">London</h3>
-            <p class="card-description">London is a bustling mix of history, culture, and modern charm. With iconic landmarks and vibrant neighborhoods, it offers something for everyone.</p>
-            <a href="https://en.wikipedia.org/wiki/London">know more</a>
-          </div>
-        </div>
-    </div>  
-
-        <div class="title">
-          <h1>
-              Asia
-          </h1>
-        </div>
-         
-      <div class="card-container">
-        <div class="card">
-          <img src="japan.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Tokyo</h3>
-            <p class="card-description">Tokyo is a vibrant mix of cutting-edge technology, rich culture, and neon-lit streets. From historic temples to trendy districts like Shibuya, the city pulses with energy, offering endless shopping, dining, and entertainment options.</p>
-            <a href="https://en.wikipedia.org/wiki/Tokyo">know more</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="seoul.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Seoul</h3>
-            <p class="card-description">Seoul, South Korea’s vibrant capital, seamlessly blends modern skyscrapers with ancient palaces like Gyeongbokgung and tranquil temples. Known for its dynamic street culture, cutting-edge technology, and delicious cuisine, Seoul is a city that never stops evolving.</p>
-            <a href="https://en.wikipedia.org/wiki/Seoul">know more</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="hongkong.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Hong Kong</h3>
-            <p class="card-description">Hong Kong is a bustling metropolis where East meets West, famous for its iconic skyline, vibrant street markets, and rich blend of cultures. From the stunning Victoria Harbour to its vibrant food scene and shopping districts, Hong Kong offers an exciting mix of modernity and tradition.</p>
-            <a href="https://en.wikipedia.org/wiki/Hongkong">know more</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="delhi.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-           <h3 class="card-title">Delhi</h3>
-           <p class="card-description">Delhi, the capital of India, is a dynamic city that blends ancient history with modern energy, from the majestic Red Fort to the bustling markets of Chandni Chowk. It's a vibrant mix of culture, heritage, and urban life, offering something for every traveler.</p>
-           <a href="https://en.wikipedia.org/wiki/Delhi">know more</a>
-          </div>
-        </div>
-
-        <div class="card">
-         <img src="bali.jpg" alt="Card Image" class="card-image">
-         <div class="card-content">
-           <h3 class="card-title">Bali</h3>
-           <p class="card-description">Bali, Indonesia, is a tropical paradise known for its lush landscapes, stunning beaches, and vibrant culture. From serene temples to lively markets, it offers a perfect blend of relaxation and adventure.</p>
-           <a href="https://en.wikipedia.org/wiki/Bali">know more</a>
-          </div>
+      <div class="card reveal reveal-delay-1" data-city="paris" data-region="europe" data-duration="medium">
+        <img src="paris_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Paris</h3>
+          <p class="card-description">Paris is a city of timeless charm, where iconic landmarks, cozy cafes, and rich
+            history create an unforgettable experience. It’s a perfect blend of art, culture, and romance.</p>
+          <a href="destination.html?city=paris" class="card-link">know more</a>
         </div>
       </div>
 
-      <div class="title">
-        <h1>
-            America
-        </h1>
+      <div class="card reveal reveal-delay-2" data-city="rome" data-region="europe" data-duration="medium">
+        <img src="rome_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Rome</h3>
+          <p class="card-description">Rome, the Eternal City, is a captivating blend of ancient history and vibrant modern
+            life, with landmarks like the Colosseum, the Roman Forum, and the Vatican City. It offers a unique journey
+            through time, where every corner reveals a piece of its rich cultural heritage.</p>
+          <a href="destination.html?city=rome" class="card-link">know more</a>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-3" data-city="vienna" data-region="europe" data-duration="short">
+        <img src="vienna_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Vienna</h3>
+          <p class="card-description">Vienna, Austria's capital, is renowned for its imperial history, stunning palaces
+            like the Schönbrunn and Hofburg, and its rich musical heritage, being home to composers like Mozart and
+            Beethoven. The city beautifully blends classical elegance with modern innovation, making it a cultural hub of
+            Europe.</p>
+          <a href="destination.html?city=vienna" class="card-link">know more</a>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-4" data-city="amsterdam" data-region="europe" data-duration="short">
+        <img src="amsterdam_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Amsterdam</h3>
+          <p class="card-description">Amsterdam is a picturesque city known for its iconic canals, world-class museums,
+            and vibrant cultural scene. With its historic architecture and laid-back atmosphere, it offers a perfect blend
+            of charm and modernity.</p>
+          <a href="destination.html?city=amsterdam" class="card-link">know more</a>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-5" data-city="london" data-region="europe" data-duration="medium">
+        <img src="london_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">London</h3>
+          <p class="card-description">London is a bustling mix of history, culture, and modern charm. With iconic
+            landmarks and vibrant neighborhoods, it offers something for everyone.</p>
+          <a href="destination.html?city=london" class="card-link">know more</a>
+        </div>
+      </div>
     </div>
-    
+  </section>
+
+  <!-- Asia Region -->
+  <section class="region-section">
+    <div class="title reveal">
+      <h1>
+        Asia
+      </h1>
+    </div>
+
     <div class="card-container">
-        <div class="card">
-          <img src="new york.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">New York</h3>
-            <p class="card-description">New York City is a vibrant metropolis known for its iconic landmarks like the Statue of Liberty, Times Square, and Central Park. It’s a cultural hub, offering world-class museums, diverse neighborhoods, and an energetic atmosphere that never sleeps.</p>
-            <a href="https://en.wikipedia.org/wiki/Newyork">know more</a>
-          </div>
+      <div class="card reveal reveal-delay-1" data-city="tokyo" data-region="asia" data-duration="long">
+        <img src="tokyo_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Tokyo</h3>
+          <p class="card-description">Tokyo is a vibrant mix of cutting-edge technology, rich culture, and neon-lit
+            streets. From historic temples to trendy districts like Shibuya, the city pulses with energy, offering endless
+            shopping, dining, and entertainment options.</p>
+          <a href="destination.html?city=tokyo" class="card-link">know more</a>
         </div>
+      </div>
 
-        <div class="card">
-          <img src="sanfrancisco.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">San Francisco</h3>
-            <p class="card-description">San Francisco is renowned for its stunning Golden Gate Bridge, picturesque waterfront, and vibrant neighborhoods like Chinatown and the Mission District. The city’s unique blend of natural beauty, history, and modern innovation makes it a must-visit destination.</p>
-            <a href="https://en.wikipedia.org/wiki/San Francisco">know more</a>
-          </div>
+      <div class="card reveal reveal-delay-2" data-city="seoul" data-region="asia" data-duration="medium">
+        <img src="seoul_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Seoul</h3>
+          <p class="card-description">Seoul, South Korea’s vibrant capital, seamlessly blends modern skyscrapers with
+            ancient palaces like Gyeongbokgung and tranquil temples. Known for its dynamic street culture, cutting-edge
+            technology, and delicious cuisine, Seoul is a city that never stops evolving.</p>
+          <a href="destination.html?city=seoul" class="card-link">know more</a>
         </div>
+      </div>
 
-        <div class="card">
-          <img src="LAS VEGAS.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Las Vegas</h3>
-            <p class="card-description">Las Vegas is a dazzling city known for its vibrant nightlife, luxurious casinos, and world-class entertainment. With iconic landmarks like the Strip, it's a playground for those seeking excitement, shows, and indulgence.</p>
-            <a href="https://en.wikipedia.org/wiki/Las Vegas">know more</a>
-          </div>
+      <div class="card reveal reveal-delay-3" data-city="hongkong" data-region="asia" data-duration="medium">
+        <img src="hongkong.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Hong Kong</h3>
+          <p class="card-description">Hong Kong is a bustling metropolis where East meets West, famous for its iconic
+            skyline, vibrant street markets, and rich blend of cultures. From the stunning Victoria Harbour to its vibrant
+            food scene and shopping districts, Hong Kong offers an exciting mix of modernity and tradition.</p>
+          <a href="destination.html?city=hongkong" class="card-link">know more</a>
         </div>
+      </div>
 
-        <div class="card">
-          <img src="washington.webp" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Washington, D.C.</h3>
-            <p class="card-description">Washington, D.C. is the U.S. capital, brimming with historical landmarks like the White House, Lincoln Memorial, and the National Mall. It's a city rich in culture, politics, and iconic museums, offering a deep dive into American history.</p>
-            <a href="https://en.wikipedia.org/wiki/Washington">know more</a>
-          </div>
+      <div class="card reveal reveal-delay-4" data-city="delhi" data-region="asia" data-duration="short">
+        <img src="delhi_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Delhi</h3>
+          <p class="card-description">Delhi, the capital of India, is a dynamic city that blends ancient history with
+            modern energy, from the majestic Red Fort to the bustling markets of Chandni Chowk. It's a vibrant mix of
+            culture, heritage, and urban life, offering something for every traveler.</p>
+          <a href="destination.html?city=delhi" class="card-link">know more</a>
         </div>
-        
-        <div class="card">
-          <img src="hawaii.jpg" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Hawaii</h3>
-            <p class="card-description">Hawaii is a tropical paradise known for its stunning beaches, lush rainforests, and active volcanoes. With its unique blend of natural beauty and rich Polynesian culture, it offers the perfect mix of adventure and relaxation.</p>
-            <a href="https://en.wikipedia.org/wiki/Hawaii">know more</a>
-          </div>
+      </div>
+
+      <div class="card reveal reveal-delay-5" data-city="bali" data-region="asia" data-duration="long">
+        <img src="bali_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Bali</h3>
+          <p class="card-description">Bali, Indonesia, is a tropical paradise known for its lush landscapes, stunning
+            beaches, and vibrant culture. From serene temples to lively markets, it offers a perfect blend of relaxation
+            and adventure.</p>
+          <a href="destination.html?city=bali" class="card-link">know more</a>
         </div>
-    </div>  
-  <div class="last">
-    <p2>
-Thank You for Visiting!<br><br>
+      </div>
+    </div>
+  </section>
 
-We hope you’ve enjoyed reading about our travel adventures and found some inspiration for your own journeys! 🌍✈️<br>
-<br>
-<br>
-Stay Connected<br>
+  <!-- America Region -->
+  <section class="region-section">
+    <div class="title reveal">
+      <h1>
+        America
+      </h1>
+    </div>
 
-Want more travel tips, stories, and recommendations?<br>
- Don’t miss out on future posts – subscribe to our newsletter and get the latest updates delivered straight to your inbox!<br>
- Instagram - <a href="#">instagram@beyondborders</a><br>
- Facebook - <a href="#">facebook@beyondborders</a><br>
- Twitter - <a href="#">twitter@beyondborders</a><br>
- YouTube - <a href="#">youtube@beyondborders</a><br>
+    <div class="card-container">
+      <div class="card reveal reveal-delay-1" data-city="newyork" data-region="america" data-duration="medium">
+        <img src="newyork_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">New York</h3>
+          <p class="card-description">New York City is a vibrant metropolis known for its iconic landmarks like the Statue
+            of Liberty, Times Square, and Central Park. It’s a cultural hub, offering world-class museums, diverse
+            neighborhoods, and an energetic atmosphere that never sleeps.</p>
+          <a href="destination.html?city=newyork" class="card-link">know more</a>
+        </div>
+      </div>
 
-[Subscribe Now]
-</p2>
-<div class="logo">
-<img src="logo1.jpg" width="200px" height="200px" >
-</div>
+      <div class="card reveal reveal-delay-2" data-city="sanfrancisco" data-region="america" data-duration="medium">
+        <img src="sanfrancisco_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">San Francisco</h3>
+          <p class="card-description">San Francisco is renowned for its stunning Golden Gate Bridge, picturesque
+            waterfront, and vibrant neighborhoods like Chinatown and the Mission District. The city’s unique blend of
+            natural beauty, history, and modern innovation makes it a must-visit destination.</p>
+          <a href="destination.html?city=sanfrancisco" class="card-link">know more</a>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-3" data-city="lasvegas" data-region="america" data-duration="short">
+        <img src="lasvegas_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Las Vegas</h3>
+          <p class="card-description">Las Vegas is a dazzling city known for its vibrant nightlife, luxurious casinos, and
+            world-class entertainment. With iconic landmarks like the Strip, it's a playground for those seeking
+            excitement, shows, and indulgence.</p>
+          <a href="destination.html?city=lasvegas" class="card-link">know more</a>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-4" data-city="washington" data-region="america" data-duration="medium">
+        <img src="washington_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Washington, D.C.</h3>
+          <p class="card-description">Washington, D.C. is the U.S. capital, brimming with historical landmarks like the
+            White House, Lincoln Memorial, and the National Mall. It's a city rich in culture, politics, and iconic
+            museums, offering a deep dive into American history.</p>
+          <a href="destination.html?city=washington" class="card-link">know more</a>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-5" data-city="hawaii" data-region="america" data-duration="long">
+        <img src="hawaii_hd.jpg" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Hawaii</h3>
+          <p class="card-description">Hawaii is a tropical paradise known for its stunning beaches, lush rainforests, and
+            active volcanoes. With its unique blend of natural beauty and rich Polynesian culture, it offers the perfect
+            mix of adventure and relaxation.</p>
+          <a href="destination.html?city=hawaii" class="card-link">know more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fallback message when search results are empty -->
+  <div id="noResults" class="no-results">
+    <h3>No Destinations Found</h3>
+    <p>We couldn't find any travel guides matching your search criteria.</p>
+    <div class="suggested-destinations">
+      <p class="suggestion-title">Try searching for one of our featured destinations:</p>
+      <div class="suggestion-tags">
+        <button class="suggestion-tag" onclick="document.getElementById('searchBar').value = 'Paris'; document.getElementById('searchBar').dispatchEvent(new Event('input'));">Paris</button>
+        <button class="suggestion-tag" onclick="document.getElementById('searchBar').value = 'Tokyo'; document.getElementById('searchBar').dispatchEvent(new Event('input'));">Tokyo</button>
+        <button class="suggestion-tag" onclick="document.getElementById('searchBar').value = 'Rome'; document.getElementById('searchBar').dispatchEvent(new Event('input'));">Rome</button>
+        <button class="suggestion-tag" onclick="document.getElementById('searchBar').value = 'New York'; document.getElementById('searchBar').dispatchEvent(new Event('input'));">New York</button>
+        <button class="suggestion-tag" onclick="document.getElementById('searchBar').value = 'Bali'; document.getElementById('searchBar').dispatchEvent(new Event('input'));">Bali</button>
+        <button class="suggestion-tag" onclick="document.getElementById('searchBar').value = 'London'; document.getElementById('searchBar').dispatchEvent(new Event('input'));">London</button>
+      </div>
+    </div>
   </div>
 
-    
+  <!-- Reusable Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-info">
+        <h3>Miles & Moments</h3>
+        <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel
+          planning.</p>
+        <div class="social-links">
+          <a href="#" class="social-icon">Instagram</a>
+          <a href="#" class="social-icon">Facebook</a>
+          <a href="#" class="social-icon">Twitter</a>
+          <a href="#" class="social-icon">YouTube</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="new1.html">Home</a></li>
+          <li><a href="new.html">Destinations</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-newsletter">
+        <h4>Stay Connected</h4>
+        <p>Subscribe to our newsletter for custom tips, itineraries, and stories.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+          <input type="email" placeholder="Your Email Address" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Miles & Moments. All Rights Reserved. Semester 2 Web Development Project.</p>
+    </div>
+  </footer>
+
+  <!-- Frontend Interactive Filtering Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchBar = document.getElementById('searchBar');
+      const regionChips = document.querySelectorAll('[data-filter-type="region"]');
+      const durationChips = document.querySelectorAll('[data-filter-type="duration"]');
+      const cards = document.querySelectorAll('.card');
+      const regions = document.querySelectorAll('.region-section');
+      const noResults = document.getElementById('noResults');
+
+      let activeFilters = {
+        search: '',
+        region: 'all',
+        duration: 'all'
+      };
+
+      // Favorites LocalStorage Management
+      function getFavorites() {
+        const favs = localStorage.getItem('favorites');
+        return favs ? JSON.parse(favs) : [];
+      }
+
+      function isFavorite(city) {
+        return getFavorites().includes(city.toLowerCase());
+      }
+
+      function toggleFavorite(city) {
+        let favs = getFavorites();
+        city = city.toLowerCase();
+        if (favs.includes(city)) {
+          favs = favs.filter(f => f !== city);
+        } else {
+          favs.push(city);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favs));
+        updateFavoriteUI();
+      }
+
+      function updateFavoriteUI() {
+        document.querySelectorAll('.bookmark-btn').forEach(btn => {
+          const city = btn.getAttribute('data-city');
+          if (isFavorite(city)) {
+            btn.classList.add('active');
+            btn.innerHTML = '♥';
+          } else {
+            btn.classList.remove('active');
+            btn.innerHTML = '♡';
+          }
+        });
+      }
+
+      // Inject Bookmark Buttons dynamically to each card
+      cards.forEach(card => {
+        const city = card.getAttribute('data-city');
+        if (!city) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'bookmark-btn';
+        btn.setAttribute('data-city', city);
+        btn.setAttribute('aria-label', `Add ${city} to favorites`);
+        btn.innerHTML = isFavorite(city) ? '♥' : '♡';
+        if (isFavorite(city)) btn.classList.add('active');
+
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleFavorite(city);
+          if (activeFilters.region === 'favorites') {
+            filterDestinations();
+          }
+        });
+
+        card.appendChild(btn);
+      });
+
+      function filterDestinations() {
+        let totalVisible = 0;
+
+        regions.forEach(region => {
+          const regionCards = region.querySelectorAll('.card');
+          let visibleInRegion = 0;
+
+          regionCards.forEach(card => {
+            const city = card.getAttribute('data-city').toLowerCase();
+            const title = card.querySelector('.card-title').textContent.toLowerCase();
+            const desc = card.querySelector('.card-description').textContent.toLowerCase();
+            const cardRegion = card.getAttribute('data-region');
+            const cardDuration = card.getAttribute('data-duration');
+
+            // Check search query
+            const matchesSearch = activeFilters.search === '' || 
+              city.includes(activeFilters.search) || 
+              title.includes(activeFilters.search) || 
+              desc.includes(activeFilters.search);
+
+            // Check region chip (including favorites)
+            let matchesRegion = false;
+            if (activeFilters.region === 'all') {
+              matchesRegion = true;
+            } else if (activeFilters.region === 'favorites') {
+              matchesRegion = isFavorite(city);
+            } else {
+              matchesRegion = cardRegion === activeFilters.region;
+            }
+
+            // Check duration chip
+            const matchesDuration = activeFilters.duration === 'all' || cardDuration === activeFilters.duration;
+
+            if (matchesSearch && matchesRegion && matchesDuration) {
+              card.classList.remove('hidden');
+              visibleInRegion++;
+              totalVisible++;
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+
+          // Hide the region section if it has no visible cards
+          if (visibleInRegion > 0) {
+            region.classList.remove('hidden');
+          } else {
+            region.classList.add('hidden');
+          }
+        });
+
+        // Show no results message if needed
+        if (totalVisible === 0) {
+          noResults.style.display = 'block';
+        } else {
+          noResults.style.display = 'none';
+        }
+      }
+
+      // Search Bar Input Event
+      searchBar.addEventListener('input', (e) => {
+        activeFilters.search = e.target.value.trim().toLowerCase();
+        filterDestinations();
+      });
+
+      // Chip Click Events
+      function setupChips(chips, filterKey) {
+        chips.forEach(chip => {
+          chip.addEventListener('click', (e) => {
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            activeFilters[filterKey] = chip.getAttribute('data-val');
+            filterDestinations();
+          });
+        });
+      }
+
+      setupChips(regionChips, 'region');
+      setupChips(durationChips, 'duration');
+
+      // Check URL parameters on load
+      const urlParams = new URLSearchParams(window.location.search);
+      const querySearch = urlParams.get('search');
+      const queryRegion = urlParams.get('region');
+
+      if (querySearch) {
+        searchBar.value = querySearch;
+        activeFilters.search = querySearch.trim().toLowerCase();
+      }
+
+      if (queryRegion) {
+        activeFilters.region = queryRegion.trim().toLowerCase();
+        regionChips.forEach(chip => {
+          if (chip.getAttribute('data-val') === activeFilters.region) {
+            regionChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+          }
+        });
+      }
+
+      if (querySearch || queryRegion) {
+        filterDestinations();
+      }
+    });
+  </script>
 </body>
 </html>

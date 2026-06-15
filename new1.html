@@ -4,96 +4,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style1.css">
-    <title>
-      Miles & Moments
-    </title>
+    <script src="theme.js" defer></script>
+    <title>Home | Miles & Moments</title>
 </head>
 <body>
-  <div class="division1">
-    <div class="logo1">
-      <img src="logo1.jpg" width="80px" height="80px" >
-    </div>
-    <div class="up">
-    <h3>
-        
-      Miles & Moments
-    </h3>
-    <p3>
-        Journey Beyond Boundaries - Explore, Dream, Discover.
-      </p3>
-    </div>
-    </div>
 
-    <div class="container">
-      <div class="menu-bar">
-        <ul>
-          <li></li>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="division">
-      <div class="heading">
-    <h1>
-        
-      Miles & Moments
-    </h1>
-    <p1>
-        Journey Beyond Boundaries - Explore, Dream, Discover.
-    </p1>
-      </div>
-      <div class="about">
-        <p>
-          <br>
-          <br>
-    Welcome to 
-    Miles & Moments, your ultimate destination for travel inspiration, tips, and stories!<br>
-    <br>
-    We’re a team of passionate explorers, storytellers, and adventurers with one mission: to inspire you to discover the world, one journey at a time.<br> From hidden gems in bustling cities to serene landscapes off the beaten path, we believe every destination has a story to tell—and we’re here to share them with you.<br>
-    <br>
-    <br>
+    <!-- Reusable Header Navigation -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <img src="logo1.jpg" alt="Logo" class="header-logo">
+                <div class="brand-text">
+                    <span class="brand-title">Miles & Moments</span>
+                    <span class="brand-tagline">Explore, Dream, Discover</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="new1.html" class="nav-link active" id="nav-home">Home</a>
+                <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+                <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
+                <a href="about.html" class="nav-link" id="nav-about">About</a>
+                <a href="services.html" class="nav-link" id="nav-services">Services</a>
+                <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
 
-    At 
-    Miles & Moments, you’ll find:<br>
+    <!-- Main Content Container -->
+    <main class="division">
+        <!-- Hero section with background slideshow -->
+        <div class="heading">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_paris.jpg');"></div> <!-- Paris -->
+                <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_japan.avif');"></div> <!-- Tokyo -->
+                <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_italy.avif');"></div> <!-- Rome -->
+                <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_bali.avif');"></div> <!-- Bali -->
+                <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_london.avif');"></div> <!-- London -->
+            </div>
+            <div class="hero-content">
+                <h1>Miles & Moments</h1>
+                <p1 class="typing-text">Journey Beyond Boundaries - Explore, Dream, Discover</p1>
+            </div>
+        </div>
+        
+        <!-- Bento Grid Section -->
+        <section class="bento-container">
+            <div class="bento-grid">
+                <!-- 1. Welcome Card (Double Width) -->
+                <div class="bento-card welcome-card reveal stagger-1">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">🧭</span>
+                    <h2>Welcome to Miles & Moments</h2>
+                    <p>Embark on your next journey with custom daily itineraries, interactive packing tools, and curated local guides. We handle the travel details so you can focus on the moments that matter.</p>
+                    <a href="new.html" class="bento-btn">Explore All Guides →</a>
+                </div>
+
+                <!-- 2. Featured Destination Card (Single Width, Tall) -->
+                <div class="bento-card featured-city-card reveal stagger-2" style="background-image: linear-gradient(rgba(14, 21, 37, 0.25), rgba(14, 21, 37, 0.85)), url('paris_hd.jpg');">
+                    <span class="badge">Trending 🌍</span>
+                    <div class="city-info">
+                        <h3>Paris, France</h3>
+                        <p>The city of light, romance, and artistic history.</p>
+                        <a href="destination.html?city=paris" class="text-link">View Travel Guide →</a>
+                    </div>
+                </div>
+
+                <!-- 3. Dynamic Quick Features Card (Single Width) -->
+                <div class="bento-card features-card reveal stagger-3">
+                    <h3>Curated Planners</h3>
+                    <p>Get day-by-day activities, tailored packing lists, and currency insights on every guide.</p>
+                    <div class="feature-pills">
+                        <span class="pill">⏱️ 3-Day Plans</span>
+                        <span class="pill">🎒 Packing Lists</span>
+                        <span class="pill">🪙 Local Currency</span>
+                    </div>
+                </div>
+
+                <!-- 4. Interactive Vibe Finder Card (Single Width) -->
+                <div class="bento-card vibe-card reveal stagger-4">
+                    <h3>Find Your Vibe</h3>
+                    <p>Filter guides by region immediately:</p>
+                    <div class="vibe-buttons">
+                        <a href="new.html?region=europe" class="vibe-btn">Europe</a>
+                        <a href="new.html?region=asia" class="vibe-btn">Asia</a>
+                        <a href="new.html?region=america" class="vibe-btn">America</a>
+                    </div>
+                </div>
+
+                <!-- 5. Wanderlust Stats Card (Double Width) -->
+                <div class="bento-card stats-card reveal stagger-5">
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="15" data-suffix="+">0+</span>
+                            <span class="stat-lbl">Global Cities</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="45" data-suffix="+">0+</span>
+                            <span class="stat-lbl">Highlight Attractions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="100" data-suffix="%">0%</span>
+                            <span class="stat-lbl">Curated Itineraries</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Reusable Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Miles & Moments</h3>
+                <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel planning.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Facebook</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="new1.html">Home</a></li>
+                    <li><a href="new.html">Destinations</a></li>
+                    <li><a href="quiz.html">Travel Quiz</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Connected</h4>
+                <p>Subscribe to our newsletter for custom tips, itineraries, and stories.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Miles & Moments. All Rights Reserved. Semester 2 Web Development Project.</p>
+        </div>
+    </footer>
     
-    Practical Travel Tips: Guides, packing lists, and advice to make your travels stress-free.<br>
-    Authentic Experiences: Stories that celebrate the culture, food, and people that make each place unique.<br>
-    Itineraries & Insights: Detailed plans and local recommendations to help you explore like a pro.<br>
-    Whether you’re a seasoned globetrotter or just planning your first adventure, we’re here to help you turn your travel dreams into reality.<br>
-    <br>
-    <br>
-    Join us as we explore the beauty of the world, one adventure at a time. Let’s create unforgettable memories together!<br>
-    </p>
-      </div>
-      <h2>
-        <a href="new.html">Explore more</a>
-      </h2>
-    </div>
-    <div class="last">
-      <p2>
-  Thank You for Visiting!<br><br>
-  
-  We hope you’ve enjoyed reading about our travel adventures and found some inspiration for your own journeys! 🌍✈️<br>
-  <br>
-  <br>
-  Stay Connected<br>
-  
-  Want more travel tips, stories, and recommendations?<br>
-   Don’t miss out on future posts – subscribe to our newsletter and get the latest updates delivered straight to your inbox!<br>
-   Instagram - <a href="#">instagram@beyondborders</a><br>
-   Facebook - <a href="#">facebook@beyondborders</a><br>
-   Twitter - <a href="#">twitter@beyondborders</a><br>
-   YouTube - <a href="#">youtube@beyondborders</a><br>
-  
-  [Subscribe Now]
-  </p2>
-  <div class="logo">
-  <img src="logo1.jpg" width="200px" height=" 200px" >
-  </div>
-   </div>
-    
+    <!-- Hero Background Slideshow Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length === 0) return;
+            
+            let currentSlide = 0;
+            const slideInterval = 2500; // 2.5 seconds display duration
+            
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+            
+            setInterval(nextSlide, slideInterval);
+        });
+    </script>
 </body>
 </html>

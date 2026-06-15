@@ -1,0 +1,259 @@
+.services-hero {
+    background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.9)), url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--text-light);
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.services-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.services-hero h1 {
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.services-hero h1 span {
+    color: var(--accent-color);
+    font-family: var(--font-accent);
+    font-size: 4rem;
+    display: block;
+    margin-top: 5px;
+}
+
+.services-hero p {
+    font-size: 1.25rem;
+    color: #CBD5E1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Service Catalog Section */
+.catalog-section {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.catalog-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 40px 30px;
+    box-shadow: var(--shadow-subtle);
+    border-top: 4px solid var(--secondary-color);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+}
+
+.catalog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-medium);
+    border-top-color: var(--accent-color);
+}
+
+.catalog-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.catalog-card h3 {
+    font-family: var(--font-title);
+    font-size: 1.4rem;
+    color: var(--heading-color);
+    margin-bottom: 15px;
+}
+
+.catalog-card p {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    opacity: 0.85;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.catalog-link {
+    text-decoration: none;
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition-smooth);
+}
+
+.catalog-link:hover {
+    color: var(--accent-color);
+}
+
+/* Pricing / Planning Packages */
+.packages-section {
+    background-color: var(--primary-color);
+    padding: 80px 20px;
+    color: var(--text-light);
+}
+
+.packages-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    align-items: stretch;
+}
+
+.package-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+.package-card:hover {
+    transform: translateY(-10px);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-color);
+}
+
+.package-card.popular {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 2px solid var(--accent-color);
+    transform: scale(1.02);
+}
+
+.package-card.popular:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+.badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.package-card h3 {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+.package-price {
+    font-family: var(--font-title);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 25px;
+}
+
+.package-price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #CBD5E1;
+}
+
+.package-features {
+    list-style: none;
+    margin-bottom: 35px;
+    flex-grow: 1;
+}
+
+.package-features li {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.package-features li::before {
+    content: '✓';
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.btn-package {
+    text-align: center;
+    text-decoration: none;
+    font-family: var(--font-title);
+    font-weight: 600;
+    padding: 12px 25px;
+    border-radius: 25px;
+    transition: var(--transition-smooth);
+}
+
+.btn-package-outline {
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+.btn-package-outline:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.btn-package-solid {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.btn-package-solid:hover {
+    background-color: #ffca8c;
+    transform: scale(1.03);
+}
+
+/* FAQ / Extra Call to Action */
+.services-cta {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.services-cta h2 {
+    font-family: var(--font-title);
+    font-size: 2.3rem;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+}
+
+.services-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .package-card.popular {
+        transform: none;
+    }
+    .package-card.popular:hover {
+        transform: translateY(-10px);
+    }
+}

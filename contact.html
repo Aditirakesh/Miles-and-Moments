@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Miles & Moments</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="contact.css">
+    <script src="theme.js" defer></script>
+</head>
+<body>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <img src="logo1.jpg" alt="Logo" class="header-logo">
+                <div class="brand-text">
+                    <span class="brand-title">Miles & Moments</span>
+                    <span class="brand-tagline">Explore, Dream, Discover</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="new1.html" class="nav-link" id="nav-home">Home</a>
+                <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+                <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
+                <a href="about.html" class="nav-link" id="nav-about">About</a>
+                <a href="services.html" class="nav-link" id="nav-services">Services</a>
+                <a href="contact.html" class="nav-link active" id="nav-contact">Contact</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="contact-container">
+            <!-- Left Panel: Info and channels -->
+            <div class="contact-info-panel">
+                <div>
+                    <h2>Get in Touch</h2>
+                    <p class="contact-info-desc">Have questions about an itinerary, want to request travel advice, or looking to collaborate? Drop us a line and let's explore together!</p>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="contact-method-card">
+                    <span class="method-icon">✉️</span>
+                    <div class="method-details">
+                        <h3>Email Us</h3>
+                        <p><a href="mailto:hello@milesandmoments.com">hello@milesandmoments.com</a></p>
+                        <p>For partnership queries, reach out directly.</p>
+                    </div>
+                </div>
+
+                <div class="contact-method-card">
+                    <span class="method-icon">📍</span>
+                    <div class="method-details">
+                        <h3>Our Travel Base</h3>
+                        <p>Vienna, Austria & New Delhi, India</p>
+                        <p>Operating worldwide.</p>
+                    </div>
+                </div>
+
+                <div class="contact-method-card">
+                    <span class="method-icon">📱</span>
+                    <div class="method-details">
+                        <h3>Social Networks</h3>
+                        <p>Instagram: <a href="#">@beyondborders</a></p>
+                        <p>Facebook: <a href="#">facebook@beyondborders</a></p>
+                        <p>Twitter: <a href="#">twitter@beyondborders</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Glassmorphic Contact Form -->
+            <div class="contact-form-wrapper">
+                <form id="contactForm">
+                    <h2>Send a Message</h2>
+                    <p>Fill out the form below and our team will get back to you within 24 hours.</p>
+
+                    <div class="form-group">
+                        <label for="userName">Full Name</label>
+                        <input type="text" id="userName" class="form-control" placeholder="Your Name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userEmail">Email Address</label>
+                        <input type="email" id="userEmail" class="form-control" placeholder="yourname@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inquiryType">What are you looking for?</label>
+                        <select id="inquiryType" class="form-control" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option value="general">General Travel Query</option>
+                            <option value="explorer">Itinerary Plan: Self-Guided Explorer ($29)</option>
+                            <option value="wanderlust">Itinerary Plan: Wanderlust Premium ($79)</option>
+                            <option value="nomad">Itinerary Plan: Global Nomad Elite ($149)</option>
+                            <option value="licensing">Media & Photography Licensing</option>
+                            <option value="partnership">Brand Sponsorship & Partnership</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userMessage">Message Details</label>
+                        <textarea id="userMessage" class="form-control" placeholder="Tell us more about your trip, destinations, dates, and requirements..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Send Inquiry</button>
+                </form>
+
+                <!-- Submission Success Box -->
+                <div id="successMessage" class="success-container">
+                    <div class="success-icon">✉️</div>
+                    <h2 class="success-title">Message Received!</h2>
+                    <p class="success-desc">Thank you for reaching out. We have logged your request and our travel planning team will contact you shortly via email to begin planning your trip.</p>
+                    <a href="new1.html" class="btn-submit">Return Home</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Miles & Moments</h3>
+                <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel planning.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Facebook</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="new1.html">Home</a></li>
+                    <li><a href="new.html">Destinations</a></li>
+                    <li><a href="quiz.html">Travel Quiz</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Connected</h4>
+                <p>Subscribe to our newsletter for custom tips, itineraries, and stories.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Miles & Moments. All Rights Reserved. Semester 2 Web Development Project.</p>
+        </div>
+    </footer>
+
+    <!-- Form Submit and Query Parameter Script -->
+    <script>
+        // Read URL query parameters to auto-select packages
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const packageParam = urlParams.get('package');
+            if (packageParam) {
+                const selectElement = document.getElementById('inquiryType');
+                if (selectElement) {
+                    // Search if package option exists and select it
+                    for (let i = 0; i < selectElement.options.length; i++) {
+                        if (selectElement.options[i].value === packageParam) {
+                            selectElement.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        // Toggle success container state on submit via API
+        const formElement = document.getElementById('contactForm');
+        formElement.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const submitBtn = formElement.querySelector('.btn-submit');
+            if (submitBtn) submitBtn.disabled = true;
+
+            // Remove existing error if present
+            const existingError = formElement.querySelector('.form-error-msg');
+            if (existingError) existingError.remove();
+
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const inquiryType = document.getElementById('inquiryType').value;
+            const message = document.getElementById('userMessage').value;
+
+            fetch('/api/inquiry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    inquiry_type: inquiryType,
+                    message: message
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to submit message. Please try again.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                formElement.style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            })
+            .catch(error => {
+                if (submitBtn) submitBtn.disabled = false;
+
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'form-error-msg';
+                errorDiv.innerHTML = error.message || 'Server error. Please try again later.';
+                errorDiv.style.color = '#EF4444';
+                errorDiv.style.fontSize = '0.9rem';
+                errorDiv.style.marginTop = '15px';
+                errorDiv.style.fontWeight = '500';
+                formElement.appendChild(errorDiv);
+            });
+        });
+    </script>
+</body>
+</html>

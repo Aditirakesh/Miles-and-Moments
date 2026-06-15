@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Vibe Quiz | Miles & Moments</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="quiz.css">
+    <script src="theme.js" defer></script>
+    <script src="destinations-data.js" defer></script>
+</head>
+<body>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <img src="logo1.jpg" alt="Logo" class="header-logo">
+                <div class="brand-text">
+                    <span class="brand-title">Miles & Moments</span>
+                    <span class="brand-tagline">Explore, Dream, Discover</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="new1.html" class="nav-link" id="nav-home">Home</a>
+                <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+                <a href="quiz.html" class="nav-link active" id="nav-quiz">Quiz</a>
+                <a href="about.html" class="nav-link" id="nav-about">About</a>
+                <a href="services.html" class="nav-link" id="nav-services">Services</a>
+                <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="quiz-main">
+        <div class="quiz-container">
+            <!-- 1. Start Screen -->
+            <div id="start-screen" class="quiz-card active reveal">
+                <span class="quiz-badge-icon">🧭</span>
+                <h1>Find Your Perfect Destination</h1>
+                <p>Confused where to go next? Take our quick 5-question personality quiz to match your style, budget, and vibes with the absolute best matching cities across our guides.</p>
+                <button id="start-btn" class="btn-quiz">Begin Vibe Matcher</button>
+            </div>
+
+            <!-- 2. Question Cards (Dynamically generated or populated) -->
+            <div id="quiz-flow" class="quiz-flow-container" style="display: none;">
+                <div class="quiz-header">
+                    <div class="quiz-progress-wrapper">
+                        <span id="quiz-question-number">Question 1 of 5</span>
+                        <div class="progress-bar-container">
+                            <div id="quiz-progress" class="progress-bar" style="width: 20%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-card" class="quiz-card question-card-content animate-slide">
+                    <h2 id="question-text">What is your ideal travel vibe?</h2>
+                    <div id="options-grid" class="options-grid">
+                        <!-- Options injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Results Screen -->
+            <div id="result-screen" class="quiz-card results-container" style="display: none;">
+                <span class="quiz-badge-icon">🎉</span>
+                <h2>Your Perfect Travel Matches</h2>
+                <p>Based on your unique travel profile, here are the top destinations that fit your preferences:</p>
+                
+                <div id="results-grid" class="results-grid">
+                    <!-- Recommendation cards injected here -->
+                </div>
+
+                <button id="restart-btn" class="btn-quiz outline">Retake Quiz</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Miles & Moments</h3>
+                <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel planning.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Facebook</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="new1.html">Home</a></li>
+                    <li><a href="new.html">Destinations</a></li>
+                    <li><a href="quiz.html">Travel Quiz</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Connected</h4>
+                <p>Subscribe to our newsletter for custom tips, itineraries, and stories.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Miles & Moments. All Rights Reserved. Semester 2 Web Development Project.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Quiz Controller Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startScreen = document.getElementById('start-screen');
+            const quizFlow = document.getElementById('quiz-flow');
+            const resultScreen = document.getElementById('result-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            const questionText = document.getElementById('question-text');
+            const optionsGrid = document.getElementById('options-grid');
+            const questionNumberText = document.getElementById('quiz-question-number');
+            const progressBar = document.getElementById('quiz-progress');
+            
+            const resultsGrid = document.getElementById('results-grid');
+
+            // Quiz Configuration
+            const questions = [
+                {
+                    text: "What is your ideal vacation vibe?",
+                    key: "vibe",
+                    options: [
+                        { text: "❤️ Romantic & Cozy", val: "romantic", desc: "Charming alleys, intimate dinners, café culture." },
+                        { text: "🧗 Adventurous & Bold", val: "adventurous", desc: "Exploring landmarks, hiking, active exploration." },
+                        { text: "🏛️ Cultural & Historic", val: "cultural", desc: "Museums, historic landmarks, architecture, heritage." },
+                        { text: "🌊 Relaxing & Scenic", val: "relaxing", desc: "Beaches, coastal walks, laid-back atmosphere." }
+                    ]
+                },
+                {
+                    text: "How much time do you want to spend there?",
+                    key: "duration",
+                    options: [
+                        { text: "⏳ Short Weekend (2-3 Days)", val: "short", desc: "Quick getaways, compact plans." },
+                        { text: "📅 Standard Stay (3-5 Days)", val: "medium", desc: "Deep exploration, balanced itineraries." },
+                        { text: "✈️ Extended Vacation (5+ Days)", val: "long", desc: "Scenic exploration, surrounding excursions." }
+                    ]
+                },
+                {
+                    text: "What's your preferred budget level?",
+                    key: "budget",
+                    options: [
+                        { text: "💵 Budget Friendly", val: "budget", desc: "Inexpensive local eats, accessible options." },
+                        { text: "💳 Moderate Mid-Range", val: "midrange", desc: "Standard hotels, curated dinners." },
+                        { text: "💎 Premium Luxury", val: "luxury", desc: "Fine dining, landmark cruises, luxury stays." }
+                    ]
+                },
+                {
+                    text: "Which dining style excites you most?",
+                    key: "food",
+                    options: [
+                        { text: "🍜 Street Food & Local Markets", val: "street", desc: "Authentic local flavors on-the-go." },
+                        { text: "🍷 Fine Dining & Wine Tastings", val: "dining", desc: "Premium culinary art and elegant spaces." },
+                        { text: "☕ Café Culture & Fresh Pastries", val: "cafe", desc: "Relaxed coffee breaks, bakery treats." }
+                    ]
+                },
+                {
+                    text: "Pick your dream landscape view:",
+                    key: "landscape",
+                    options: [
+                        { text: "🏙️ Shiny City Skyline", val: "skyline", desc: "Neon lights, high-rises, urban charm." },
+                        { text: "🏖️ Sandy Beach & Coastline", val: "beach", desc: "Ocean waves, sunsets, tropical nature." },
+                        { text: "🏞️ Mountain Tops & Nature Trails", val: "nature", desc: "Green valleys, clean air, hiking peaks." },
+                        { text: "🧱 Historic Cobblestones", val: "cobble", desc: "Old-world buildings, heritage structures." }
+                    ]
+                }
+            ];
+
+            // Mapping destinations weights
+            const cityScores = {
+                paris: { romantic: 5, medium: 4, luxury: 4, cafe: 5, cobble: 5, skyline: 2 },
+                rome: { cultural: 5, medium: 4, midrange: 4, dining: 4, cobble: 5 },
+                vienna: { romantic: 4, cultural: 4, short: 4, midrange: 4, cafe: 5, cobble: 4 },
+                amsterdam: { relaxing: 4, short: 4, budget: 4, cafe: 4, cobble: 4 },
+                london: { cultural: 4, medium: 4, luxury: 4, dining: 4, cobble: 4, skyline: 3 },
+                tokyo: { adventurous: 4, cultural: 4, medium: 4, midrange: 4, street: 5, skyline: 5 },
+                seoul: { adventurous: 4, medium: 4, midrange: 4, street: 4, skyline: 4, nature: 3 },
+                hongkong: { cultural: 3, long: 4, luxury: 5, dining: 4, skyline: 5 },
+                delhi: { cultural: 5, medium: 4, budget: 5, street: 5, cobble: 4 },
+                bali: { relaxing: 5, long: 4, budget: 4, street: 4, beach: 5 },
+                newyork: { adventurous: 3, long: 4, luxury: 4, dining: 4, skyline: 5 },
+                sanfrancisco: { relaxing: 4, medium: 4, midrange: 4, cafe: 4, beach: 3, skyline: 3 },
+                lasvegas: { adventurous: 4, short: 4, luxury: 4, dining: 4, skyline: 5 },
+                washington: { cultural: 5, medium: 4, midrange: 4, dining: 3, cobble: 4 },
+                hawaii: { relaxing: 5, long: 4, luxury: 4, street: 3, beach: 5, nature: 5 }
+            };
+
+            let currentQuestionIdx = 0;
+            let userAnswers = {};
+
+            startBtn.addEventListener('click', startQuiz);
+            restartBtn.addEventListener('click', restartQuiz);
+
+            function startQuiz() {
+                startScreen.style.display = 'none';
+                quizFlow.style.display = 'block';
+                currentQuestionIdx = 0;
+                userAnswers = {};
+                showQuestion();
+            }
+
+            function restartQuiz() {
+                resultScreen.style.display = 'none';
+                startScreen.style.display = 'block';
+            }
+
+            function showQuestion() {
+                const q = questions[currentQuestionIdx];
+                questionText.textContent = q.text;
+                questionNumberText.textContent = `Question ${currentQuestionIdx + 1} of ${questions.length}`;
+                
+                const percentage = ((currentQuestionIdx + 1) / questions.length) * 100;
+                progressBar.style.width = `${percentage}%`;
+                
+                // Clear grid
+                optionsGrid.innerHTML = '';
+                
+                q.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-card';
+                    btn.innerHTML = `
+                        <div class="option-title">${opt.text}</div>
+                        <div class="option-desc">${opt.desc}</div>
+                    `;
+                    btn.addEventListener('click', () => selectOption(q.key, opt.val));
+                    optionsGrid.appendChild(btn);
+                });
+            }
+
+            function selectOption(key, val) {
+                userAnswers[key] = val;
+                
+                // Card slide transition effect
+                const qCard = document.getElementById('question-card');
+                qCard.style.opacity = '0';
+                qCard.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    currentQuestionIdx++;
+                    if (currentQuestionIdx < questions.length) {
+                        showQuestion();
+                        qCard.style.opacity = '1';
+                        qCard.style.transform = 'translateX(0)';
+                    } else {
+                        showResults();
+                    }
+                }, 300);
+            }
+
+            function showResults() {
+                quizFlow.style.display = 'none';
+                resultScreen.style.display = 'block';
+                
+                // Calculate city scores
+                const scores = {};
+                for (const city in cityScores) {
+                    scores[city] = 0;
+                    const weights = cityScores[city];
+                    
+                    // Sum matching factors
+                    for (const key in userAnswers) {
+                        const val = userAnswers[key];
+                        if (weights[val]) {
+                            scores[city] += weights[val];
+                        }
+                    }
+                }
+
+                // Sort cities by score descend
+                const sortedCities = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+                
+                // Get top 2 cities
+                const top2 = sortedCities.slice(0, 2);
+                
+                resultsGrid.innerHTML = '';
+                
+                top2.forEach(cityKey => {
+                    const cityData = destinationsData[cityKey];
+                    if (!cityData) return;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'result-city-card reveal active';
+                    card.innerHTML = `
+                        <div class="result-card-image-box" style="background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.75)), url('${cityData.heroImage}');">
+                            <span class="match-badge">Match Choice</span>
+                        </div>
+                        <div class="result-card-content">
+                            <h3>${cityData.name}</h3>
+                            <div class="result-tags">
+                                <span class="tag">${cityData.region}</span>
+                                <span class="tag">⏱️ ${cityData.duration}</span>
+                            </div>
+                            <p>${cityData.tagline}</p>
+                            <a href="destination.html?city=${cityKey}" class="btn-quiz">Explore Guide</a>
+                        </div>
+                    `;
+                    resultsGrid.appendChild(card);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,595 @@
+/* destination.css - Travel Guide Detail Template Styling */
+
+/* Page loader spinner */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    gap: 15px;
+    color: var(--text-dark);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hero Section */
+.dest-hero {
+    height: 55vh;
+    min-height: 350px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-light);
+    padding: 0 20px;
+    position: relative;
+}
+
+.dest-hero-content {
+    max-width: 800px;
+    animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.region-badge {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-subtle);
+}
+
+.dest-hero h1 {
+    font-family: var(--font-title);
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+.dest-hero .tagline {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: #CBD5E1;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* Page Layout grid */
+.dest-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.dest-main {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* Details Section Box styling */
+.dest-main section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: var(--shadow-subtle);
+}
+
+.dest-main h2 {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    color: var(--heading-color);
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.dest-main h2::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 4px;
+    background-color: var(--accent-color);
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
+}
+
+.intro-section p {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+    opacity: 0.9;
+}
+
+/* Must-See Highlights Grid */
+.highlights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.highlight-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+body.dark-theme .highlight-item {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.highlight-item:hover {
+    background: var(--card-bg);
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-subtle);
+}
+
+.highlight-icon {
+    font-size: 2.2rem;
+    background-color: var(--light-bg);
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.highlight-info h3 {
+    font-family: var(--font-title);
+    font-size: 1.15rem;
+    color: var(--heading-color);
+    margin-bottom: 6px;
+}
+
+.highlight-info p {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+/* Itinerary Tabs */
+.itinerary-intro {
+    font-size: 1rem;
+    color: var(--text-dark);
+    opacity: 0.8;
+    margin-bottom: 25px;
+}
+
+.tabs-header {
+    display: flex;
+    gap: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 25px;
+    border-radius: 8px;
+    color: var(--text-dark);
+    opacity: 0.6;
+    transition: var(--transition-smooth);
+}
+
+.tab-btn:hover {
+    opacity: 0.9;
+    background-color: var(--light-bg);
+}
+
+.tab-btn.active {
+    opacity: 1;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+body.dark-theme .tab-btn.active {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-pane h3 {
+    font-family: var(--font-title);
+    font-size: 1.3rem;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+}
+
+.activity-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.activity-list li {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.activity-list .bullet {
+    font-size: 1.25rem;
+    padding-top: 2px;
+}
+
+.activity-list p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    opacity: 0.85;
+}
+
+/* Sidebar Styling */
+.dest-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: sticky;
+    top: 100px;
+}
+
+.sidebar-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: var(--shadow-subtle);
+}
+
+.sidebar-card h3 {
+    font-family: var(--font-title);
+    font-size: 1.4rem;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+/* Stats Card list rows */
+.stat-row {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    opacity: 0.6;
+    margin-bottom: 4px;
+}
+
+.stat-val {
+    font-family: var(--font-title);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Checklist Card styling */
+.checklist-card p {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+.checklist-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* Custom Checkbox design */
+.checkbox-container {
+    display: flex;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    user-select: none;
+    align-items: center;
+    color: var(--text-dark);
+    line-height: 1.4;
+}
+
+/* Hide native checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Custom Checkmark square container */
+.checkmark {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: var(--light-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    transition: var(--transition-smooth);
+}
+
+/* Hover checkmark box */
+.checkbox-container:hover input~.checkmark {
+    border-color: var(--accent-color);
+}
+
+/* Checked styling checkmark box background */
+.checkbox-container input:checked~.checkmark {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Checkmark sign icon styling */
+.checkmark::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid var(--primary-color);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+/* Show checkmark when checked */
+.checkbox-container input:checked~.checkmark::after {
+    display: block;
+}
+
+/* Strikethrough text when checked */
+.checkbox-container input:checked~.item-text {
+    text-decoration: line-through;
+    opacity: 0.55;
+}
+
+.checkbox-container .item-text {
+    transition: var(--transition-smooth);
+}
+
+/* Progress bar inside checklist */
+.checklist-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: var(--light-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    border-radius: 4px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#progress-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    opacity: 0.8;
+}
+
+/* Responsive Overrides */
+@media (max-width: 992px) {
+    .dest-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .dest-sidebar {
+        position: static;
+    }
+
+    .dest-hero h1 {
+        font-size: 3.2rem;
+    }
+
+    .dest-hero .tagline {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dest-main section {
+        padding: 25px;
+    }
+
+    .highlights-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .tab-btn {
+        flex: 1 1 calc(50% - 10px);
+        padding: 10px 15px;
+        text-align: center;
+    }
+}
+
+/* Currency Converter Card Styling */
+.currency-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-medium);
+}
+
+.converter-box {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.converter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.converter-currency-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    opacity: 0.75;
+}
+
+.converter-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg);
+    color: var(--text-dark);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.converter-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background-color: var(--input-focus-bg);
+    box-shadow: 0 0 0 3px rgba(224, 169, 109, 0.15);
+}
+
+/* Hide spin arrows in inputs */
+.converter-input::-webkit-outer-spin-button,
+.converter-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.converter-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.converter-swap-container {
+    display: flex;
+    justify-content: center;
+    margin: 2px 0;
+}
+
+.converter-swap-btn {
+    background: none;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 4px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.converter-swap-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.converter-swap-btn:active {
+    transform: scale(0.95);
+}
+
+.converter-rate-info {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    opacity: 0.6;
+    text-align: center;
+    margin-top: 5px;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 10px;
+}
