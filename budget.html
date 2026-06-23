@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="theme.js" defer></script>
+  <script src="destinations-data.js"></script>
+  <title>Travel Budget Planner | Miles & Moments</title>
+</head>
+
+<body>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <img src="logo1.jpg" alt="Logo" class="header-logo">
+        <div class="brand-text">
+          <span class="brand-title">Miles & Moments</span>
+          <span class="brand-tagline">Explore, Dream, Discover</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="new1.html" class="nav-link" id="nav-home">Home</a>
+        <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+        <a href="budget.html" class="nav-link active" id="nav-budget">Budget</a>
+        <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
+        <a href="about.html" class="nav-link" id="nav-about">About</a>
+        <a href="services.html" class="nav-link" id="nav-services">Services</a>
+        <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Budget Page Hero Banner -->
+  <section class="budget-hero" style="background-image: linear-gradient(rgba(11, 19, 43, 0.65), rgba(11, 19, 43, 0.85)), url('back_japan.avif'); background-size: cover; background-position: center; padding: 60px 20px; text-align: center; color: white; margin-bottom: 40px; border-radius: 0 0 24px 24px;">
+    <h1 style="font-family: var(--font-title); font-size: 2.8rem; margin-bottom: 12px; font-weight: 700; text-shadow: var(--shadow-subtle);">Travel Budget Planner</h1>
+    <p style="font-size: 1.15rem; opacity: 0.9; max-width: 600px; margin: 0 auto; line-height: 1.5; font-family: var(--font-serif); font-style: italic;">Plan your dream trip, estimate expenses, and convert currencies dynamically.</p>
+  </section>
+
+  <!-- Interactive Travel Budget & Cost Calculator -->
+  <section class="calculator-section">
+    <div class="calculator-container">
+      <!-- Inputs Control Column -->
+      <div class="calc-inputs-panel">
+        <h2>Trip Cost Estimator</h2>
+        <p class="calc-subtitle">Adjust travel parameters to estimate your budget dynamically.</p>
+        
+        <div class="calc-form-group">
+          <label for="calc-destination">Where are you going?</label>
+          <select id="calc-destination" class="calc-select">
+            <!-- Dynamically populated options from destinationsData -->
+          </select>
+        </div>
+
+        <div class="calc-form-group">
+          <label for="calc-days">Trip Duration: <span id="calc-days-val" class="highlight-val">7 Days</span></label>
+          <input type="range" id="calc-days" min="1" max="30" value="7" class="calc-slider">
+        </div>
+
+        <div class="calc-form-group">
+          <label>Accommodation Standard</label>
+          <div class="calc-radio-group">
+            <label class="calc-radio-label">
+              <input type="radio" name="calc-accommodation" value="budget" checked>
+              <span class="radio-custom"></span>
+              <span>Budget (Backpacker Hostels)</span>
+            </label>
+            <label class="calc-radio-label">
+              <input type="radio" name="calc-accommodation" value="midrange">
+              <span class="radio-custom"></span>
+              <span>Mid-Range (Standard Hotels)</span>
+            </label>
+            <label class="calc-radio-label">
+              <input type="radio" name="calc-accommodation" value="luxury">
+              <span class="radio-custom"></span>
+              <span>Luxury (Premium Resorts)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-form-group">
+            <label for="calc-food">Food & Dining</label>
+            <select id="calc-food" class="calc-select">
+              <option value="street">Street Food / Local Eateries</option>
+              <option value="casual" selected>Casual Dining Restaurants</option>
+              <option value="fine">Fine Dining Experiences</option>
+            </select>
+          </div>
+
+          <div class="calc-form-group">
+            <label for="calc-transport">Local Transportation</label>
+            <select id="calc-transport" class="calc-select">
+              <option value="public" selected>Public Transit (Bus / Metro)</option>
+              <option value="taxi">Rideshare / Taxis</option>
+              <option value="rental">Private Rental Car</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calc-form-group">
+          <label for="calc-activities">Activities & Sightseeing</label>
+          <select id="calc-activities" class="calc-select">
+            <option value="free">Free Attractions / Walking Tours</option>
+            <option value="guided" selected>Museum Passes & Guided Tours</option>
+            <option value="adventure">Adventure Sports / Day Excursions</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Outputs Visual Column -->
+      <div class="calc-outputs-panel">
+        <div class="grand-total-box">
+          <h3>Estimated Grand Total</h3>
+          <div class="total-inr" id="calc-total-inr">₹0</div>
+          <div class="total-local" id="calc-total-local">--</div>
+        </div>
+
+        <div class="gauges-grid">
+          <!-- Accommodation Circle Gauge -->
+          <div class="gauge-card">
+            <svg class="progress-circle" viewBox="0 0 100 100">
+              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
+              <circle class="fg-circle" id="gauge-accommodation" cx="50" cy="50" r="40" style="stroke-dasharray: 251.2; stroke-dashoffset: 251.2; stroke: #4895EF;"></circle>
+            </svg>
+            <div class="gauge-label">Accommodation</div>
+            <div class="gauge-val" id="val-accommodation">₹0</div>
+          </div>
+          
+          <!-- Food Circle Gauge -->
+          <div class="gauge-card">
+            <svg class="progress-circle" viewBox="0 0 100 100">
+              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
+              <circle class="fg-circle" id="gauge-food" cx="50" cy="50" r="40" style="stroke-dasharray: 251.2; stroke-dashoffset: 251.2; stroke: #2A9D8F;"></circle>
+            </svg>
+            <div class="gauge-label">Food & Drinks</div>
+            <div class="gauge-val" id="val-food">₹0</div>
+          </div>
+
+          <!-- Transport Circle Gauge -->
+          <div class="gauge-card">
+            <svg class="progress-circle" viewBox="0 0 100 100">
+              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
+              <circle class="fg-circle" id="gauge-transport" cx="50" cy="50" r="40" style="stroke-dasharray: 251.2; stroke-dashoffset: 251.2; stroke: #E0A96D;"></circle>
+            </svg>
+            <div class="gauge-label">Transportation</div>
+            <div class="gauge-val" id="val-transport">₹0</div>
+          </div>
+
+          <!-- Activities Circle Gauge -->
+          <div class="gauge-card">
+            <svg class="progress-circle" viewBox="0 0 100 100">
+              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
+              <circle class="fg-circle" id="gauge-activities" cx="50" cy="50" r="40" style="stroke-dasharray: 251.2; stroke-dashoffset: 251.2; stroke: #E76F51;"></circle>
+            </svg>
+            <div class="gauge-label">Activities</div>
+            <div class="gauge-val" id="val-activities">₹0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reusable Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-info">
+        <h3>Miles & Moments</h3>
+        <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel planning.</p>
+        <div class="social-links">
+          <a href="#" class="social-icon">Instagram</a>
+          <a href="#" class="social-icon">Facebook</a>
+          <a href="#" class="social-icon">Twitter</a>
+          <a href="#" class="social-icon">YouTube</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="new1.html">Home</a></li>
+          <li><a href="new.html">Destinations</a></li>
+          <li><a href="budget.html">Budget Calculator</a></li>
+          <li><a href="quiz.html">Travel Quiz</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-newsletter">
+        <h4>Stay Connected</h4>
+        <p>Subscribe to our newsletter for custom tips, itineraries, and stories.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+          <input type="email" placeholder="Your Email Address" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Miles & Moments. All Rights Reserved. Semester 2 Web Development Project.</p>
+    </div>
+  </footer>
+
+  <!-- Script logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cityBaseDailyCosts = {
+        paris: 4500,
+        rome: 3800,
+        vienna: 3500,
+        amsterdam: 4000,
+        london: 5000,
+        tokyo: 4200,
+        seoul: 3200,
+        hongkong: 4000,
+        delhi: 1200,
+        bali: 1500,
+        newyork: 6500,
+        sanfrancisco: 6000,
+        lasvegas: 5500,
+        washington: 5800,
+        hawaii: 6000
+      };
+
+      function initBudgetCalculator() {
+        const destSelect = document.getElementById('calc-destination');
+        const daysSlider = document.getElementById('calc-days');
+        const daysLabel = document.getElementById('calc-days-val');
+        const foodSelect = document.getElementById('calc-food');
+        const transportSelect = document.getElementById('calc-transport');
+        const activitiesSelect = document.getElementById('calc-activities');
+        
+        const totalInrEl = document.getElementById('calc-total-inr');
+        const totalLocalEl = document.getElementById('calc-total-local');
+        const valAccommodation = document.getElementById('val-accommodation');
+        const valFood = document.getElementById('val-food');
+        const valTransport = document.getElementById('val-transport');
+        const valActivities = document.getElementById('val-activities');
+        
+        const gaugeAccommodation = document.getElementById('gauge-accommodation');
+        const gaugeFood = document.getElementById('gauge-food');
+        const gaugeTransport = document.getElementById('gauge-transport');
+        const gaugeActivities = document.getElementById('gauge-activities');
+
+        if (!destSelect || !daysSlider) return;
+
+        // Populate destination options dynamically
+        destSelect.innerHTML = '';
+        Object.keys(destinationsData).forEach(key => {
+          const city = destinationsData[key];
+          const option = document.createElement('option');
+          option.value = key;
+          option.textContent = city.name;
+          destSelect.appendChild(option);
+        });
+
+        function calculateBudget() {
+          const cityKey = destSelect.value;
+          const cityData = destinationsData[cityKey];
+          const days = parseInt(daysSlider.value, 10);
+          
+          daysLabel.textContent = `${days} ${days === 1 ? 'Day' : 'Days'}`;
+
+          // 1. Calculate Accommodation
+          const baseAcc = cityBaseDailyCosts[cityKey] || 3000;
+          const accommodationLevel = document.querySelector('input[name="calc-accommodation"]:checked').value;
+          let accMultiplier = 0.6; // Budget level
+          if (accommodationLevel === 'midrange') accMultiplier = 1.5;
+          if (accommodationLevel === 'luxury') accMultiplier = 3.5;
+          const accCost = Math.round(baseAcc * accMultiplier * days);
+
+          // 2. Calculate Food
+          const foodVal = foodSelect.value;
+          let foodDaily = 1500;
+          if (foodVal === 'street') foodDaily = 500;
+          if (foodVal === 'fine') foodDaily = 4000;
+          const foodCost = foodDaily * days;
+
+          // 3. Calculate Transport
+          const transportVal = transportSelect.value;
+          let transportDaily = 200;
+          if (transportVal === 'taxi') transportDaily = 1000;
+          if (transportVal === 'rental') transportDaily = 3000;
+          const transportCost = transportDaily * days;
+
+          // 4. Calculate Activities
+          const activitiesVal = activitiesSelect.value;
+          let activitiesDaily = 1500;
+          if (activitiesVal === 'free') activitiesDaily = 300;
+          if (activitiesVal === 'adventure') activitiesDaily = 3500;
+          const activitiesCost = activitiesDaily * days;
+
+          const grandTotal = accCost + foodCost + transportCost + activitiesCost;
+
+          // Format output values in INR
+          totalInrEl.textContent = `₹${grandTotal.toLocaleString('en-IN')}`;
+          valAccommodation.textContent = `₹${accCost.toLocaleString('en-IN')}`;
+          valFood.textContent = `₹${foodCost.toLocaleString('en-IN')}`;
+          valTransport.textContent = `₹${transportCost.toLocaleString('en-IN')}`;
+          valActivities.textContent = `₹${activitiesCost.toLocaleString('en-IN')}`;
+
+          // Local Currency conversion
+          const localCode = cityData.currencyCode;
+          const exchangeRate = cityData.exchangeRate;
+          const rate = localCode === 'INR' ? (1 / 83.5) : (exchangeRate / 83.5);
+          const localTotal = grandTotal * rate;
+          const localSymbol = localCode === 'INR' ? '$' : (cityData.currency.split('(')[1]?.split(')')[0] || localCode);
+
+          totalLocalEl.textContent = `Equivalent: ${localSymbol}${localTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${localCode === 'INR' ? 'USD' : localCode}`;
+
+          // Update SVG gauges
+          const totalCategoryBudget = Math.max(accCost, foodCost, transportCost, activitiesCost, 1);
+          updateGauge(gaugeAccommodation, accCost, totalCategoryBudget);
+          updateGauge(gaugeFood, foodCost, totalCategoryBudget);
+          updateGauge(gaugeTransport, transportCost, totalCategoryBudget);
+          updateGauge(gaugeActivities, activitiesCost, totalCategoryBudget);
+        }
+
+        function updateGauge(circleEl, val, maxVal) {
+          const circumference = 251.2;
+          const percentage = val / maxVal;
+          const offset = circumference - (percentage * circumference);
+          circleEl.style.strokeDashoffset = offset;
+        }
+
+        // Add event listeners
+        destSelect.addEventListener('change', calculateBudget);
+        daysSlider.addEventListener('input', calculateBudget);
+        foodSelect.addEventListener('change', calculateBudget);
+        transportSelect.addEventListener('change', calculateBudget);
+        activitiesSelect.addEventListener('change', calculateBudget);
+        
+        document.querySelectorAll('input[name="calc-accommodation"]').forEach(radio => {
+          radio.addEventListener('change', calculateBudget);
+        });
+
+        // Trigger initial calculation
+        calculateBudget();
+      }
+
+      initBudgetCalculator();
+    });
+  </script>
+</body>
+
+</html>

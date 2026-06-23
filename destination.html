@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="destination.css">
+    <!-- Leaflet.js Mapping Library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="theme.js" defer></script>
     <script src="destinations-data.js"></script>
     <title>City Guide | Miles & Moments</title>
@@ -26,6 +29,7 @@
             <nav class="nav-links">
                 <a href="new1.html" class="nav-link" id="nav-home">Home</a>
                 <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+                <a href="budget.html" class="nav-link" id="nav-budget">Budget</a>
                 <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
                 <a href="about.html" class="nav-link" id="nav-about">About</a>
                 <a href="services.html" class="nav-link" id="nav-services">Services</a>
@@ -65,6 +69,7 @@
                 <ul>
                     <li><a href="new1.html">Home</a></li>
                     <li><a href="new.html">Destinations</a></li>
+                    <li><a href="budget.html">Budget Calculator</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
@@ -126,7 +131,7 @@
                             <h2>Must-See Highlights</h2>
                             <div class="highlights-grid">
                                 ${cityData.highlights.map(h => `
-                                    <div class="highlight-item">
+                                    <div class="highlight-item clickable-highlight" data-lat="${h.coordinates ? h.coordinates[0] : ''}" data-lng="${h.coordinates ? h.coordinates[1] : ''}" data-name="${h.name}">
                                         <div class="highlight-icon">${h.icon}</div>
                                         <div class="highlight-info">
                                             <h3>${h.name}</h3>
@@ -135,6 +140,12 @@
                                     </div>
                                 `).join('')}
                             </div>
+                        </section>
+
+                        <section class="map-section">
+                            <h2>Interactive Map</h2>
+                            <p class="map-intro">Explore must-see places directly on the map. Click on a highlight card above or a map pin to center and view details.</p>
+                            <div id="map"></div>
                         </section>
 
                         <section class="itinerary-section">
@@ -165,6 +176,123 @@
                                 `).join('')}
                             </div>
                         </section>
+
+                        <section class="reviews-section">
+                            <h2>Visitor Reviews & Ratings</h2>
+                            
+                            <div class="reviews-container">
+                                <!-- Reviews Summary Dashboard -->
+                                <div class="reviews-dashboard">
+                                    <div class="rating-average-box">
+                                        <div class="average-score" id="avg-rating-score">0.0</div>
+                                        <div class="star-rating-display" id="avg-stars-display">
+                                            <!-- Dynamic Stars -->
+                                        </div>
+                                        <div class="total-reviews-text" id="total-reviews-count">Based on 0 reviews</div>
+                                    </div>
+                                    
+                                    <div class="rating-breakdown">
+                                        <!-- 5 star breakdown -->
+                                        <div class="breakdown-row" data-stars="5">
+                                            <span class="breakdown-label">5 ★</span>
+                                            <div class="breakdown-bar-container">
+                                                <div class="breakdown-bar" id="bar-5" style="width: 0%"></div>
+                                            </div>
+                                            <span class="breakdown-count" id="count-5">0</span>
+                                        </div>
+                                        <!-- 4 star breakdown -->
+                                        <div class="breakdown-row" data-stars="4">
+                                            <span class="breakdown-label">4 ★</span>
+                                            <div class="breakdown-bar-container">
+                                                <div class="breakdown-bar" id="bar-4" style="width: 0%"></div>
+                                            </div>
+                                            <span class="breakdown-count" id="count-4">0</span>
+                                        </div>
+                                        <!-- 3 star breakdown -->
+                                        <div class="breakdown-row" data-stars="3">
+                                            <span class="breakdown-label">3 ★</span>
+                                            <div class="breakdown-bar-container">
+                                                <div class="breakdown-bar" id="bar-3" style="width: 0%"></div>
+                                            </div>
+                                            <span class="breakdown-count" id="count-3">0</span>
+                                        </div>
+                                        <!-- 2 star breakdown -->
+                                        <div class="breakdown-row" data-stars="2">
+                                            <span class="breakdown-label">2 ★</span>
+                                            <div class="breakdown-bar-container">
+                                                <div class="breakdown-bar" id="bar-2" style="width: 0%"></div>
+                                            </div>
+                                            <span class="breakdown-count" id="count-2">0</span>
+                                        </div>
+                                        <!-- 1 star breakdown -->
+                                        <div class="breakdown-row" data-stars="1">
+                                            <span class="breakdown-label">1 ★</span>
+                                            <div class="breakdown-bar-container">
+                                                <div class="breakdown-bar" id="bar-1" style="width: 0%"></div>
+                                            </div>
+                                            <span class="breakdown-count" id="count-1">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review filters -->
+                                <div class="reviews-filters-bar">
+                                    <span class="filter-title">Filter by:</span>
+                                    <div class="filter-buttons">
+                                        <button class="filter-btn active" data-filter="all">All Reviews</button>
+                                        <button class="filter-btn" data-filter="5">5 ★</button>
+                                        <button class="filter-btn" data-filter="4">4 ★</button>
+                                        <button class="filter-btn" data-filter="3">3 ★</button>
+                                        <button class="filter-btn" data-filter="2">2 ★</button>
+                                        <button class="filter-btn" data-filter="1">1 ★</button>
+                                    </div>
+                                </div>
+
+                                <!-- Reviews Grid / Split layout: List & Submission Form -->
+                                <div class="reviews-grid">
+                                    <!-- Reviews List -->
+                                    <div class="reviews-list-area">
+                                        <div class="reviews-list" id="reviews-list-container">
+                                            <div class="no-reviews">No reviews yet. Be the first to share your experience!</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Reviews Submission Form -->
+                                    <div class="review-form-area">
+                                        <h3>Share Your Experience</h3>
+                                        <form id="submit-review-form" class="review-form">
+                                            <div class="form-group">
+                                                <label for="review-author-name">Your Name</label>
+                                                <input type="text" id="review-author-name" required placeholder="Enter your name">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label>Rating</label>
+                                                <div class="interactive-star-selector" id="form-star-selector">
+                                                    <span class="form-star-btn" data-rating="1">★</span>
+                                                    <span class="form-star-btn" data-rating="2">★</span>
+                                                    <span class="form-star-btn" data-rating="3">★</span>
+                                                    <span class="form-star-btn" data-rating="4">★</span>
+                                                    <span class="form-star-btn" data-rating="5">★</span>
+                                                </div>
+                                                <input type="hidden" id="review-rating-val" value="5" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="review-comment">Review Comment</label>
+                                                <textarea id="review-comment" required rows="4" placeholder="Tell us about your highlights, travel tips, or general advice..."></textarea>
+                                            </div>
+
+                                            <button type="submit" class="submit-review-btn" id="submit-review-btn">
+                                                <span class="btn-text">Submit Review</span>
+                                                <span class="btn-loader-spinner"></span>
+                                            </button>
+                                        </form>
+                                        <div class="review-status-msg" id="review-status-message"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
 
                     <!-- Right Column: Sidebar Stats & Interactive Packing Checklist -->
@@ -186,6 +314,20 @@
                             <div class="stat-row">
                                 <span class="stat-label">🗣️ Language Spoken</span>
                                 <span class="stat-val">${cityData.language}</span>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card weather-card">
+                            <h3>Local Time & Weather</h3>
+                            <div class="weather-time-container">
+                                <div class="time-row">
+                                    <span class="clock-icon">🕒</span>
+                                    <span class="live-clock" id="sidebar-clock">Loading time...</span>
+                                </div>
+                                <div class="weather-row" id="sidebar-weather">
+                                    <div class="weather-spinner"></div>
+                                    <span>Fetching current climate...</span>
+                                </div>
                             </div>
                         </div>
 
@@ -240,6 +382,12 @@
 
             // Initialize currency converter widget
             initCurrencyConverter(cityData);
+
+            // Initialize map integration
+            initLeafletMap(cityData);
+
+            // Initialize dynamic review system
+            initReviewsSystem(cityKey);
         });
 
         // Toggle day tabs inside itinerary block
@@ -358,6 +506,494 @@
             // Set initial rate label and trigger first calculation
             rateInfo.textContent = `1 INR = ${rate.toFixed(4)} ${localCode}`;
             updateRates();
+        }
+
+        // =========================================================================
+        // Interactive Leaflet.js Map Integration
+        // =========================================================================
+        let map = null;
+        let markers = {};
+
+        function initLeafletMap(cityData) {
+            const mapElement = document.getElementById('map');
+            if (!mapElement) return;
+
+            // Fallback coordinate: Paris
+            const cityCoords = cityData.coordinates || [48.8566, 2.3522];
+
+            try {
+                // Initialize the Leaflet map centered at city coordinates
+                map = L.map('map', {
+                    center: cityCoords,
+                    zoom: 12,
+                    scrollWheelZoom: false, // Prevent zoom on page scroll
+                    fadeAnimation: true,
+                    zoomAnimation: true
+                });
+
+                // Load and display OpenStreetMap tiles
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Add main city marker
+                const cityMarker = L.marker(cityCoords).addTo(map);
+                cityMarker.bindPopup(`
+                    <div style="font-family: var(--font-title); font-weight:600; font-size:1.05rem; color:var(--text-dark); margin-bottom:2px;">${cityData.name}</div>
+                    <div style="font-family: var(--font-serif); font-size:0.85rem; font-style:italic; color:#64748B;">${cityData.tagline}</div>
+                `).openPopup();
+
+                // Add markers for each highlight
+                if (cityData.highlights && Array.isArray(cityData.highlights)) {
+                    cityData.highlights.forEach(h => {
+                        if (h.coordinates) {
+                            const marker = L.marker(h.coordinates).addTo(map);
+                            marker.bindPopup(`
+                                <div style="font-family: var(--font-title); font-weight:600; font-size:0.95rem; color:var(--text-dark); margin-bottom:2px;">${h.icon} ${h.name}</div>
+                                <div style="font-family: var(--font-body); font-size:0.8rem; color:#475569; line-height:1.4;">${h.desc}</div>
+                            `);
+                            markers[h.name.toLowerCase()] = marker;
+                        }
+                    });
+                }
+
+                // Handle clickable highlights
+                const highlightCards = document.querySelectorAll('.clickable-highlight');
+                highlightCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const name = card.getAttribute('data-name');
+                        const lat = parseFloat(card.getAttribute('data-lat'));
+                        const lng = parseFloat(card.getAttribute('data-lng'));
+
+                        if (!isNaN(lat) && !isNaN(lng)) {
+                            // Scroll map section into view if it is not visible (optional user helper)
+                            // mapElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                            // Pan/Fly smoothly to highlight location
+                            map.flyTo([lat, lng], 14, {
+                                animate: true,
+                                duration: 1.2
+                            });
+
+                            // Open highlight marker's popup window
+                            const marker = markers[name.toLowerCase()];
+                            if (marker) {
+                                setTimeout(() => {
+                                    marker.openPopup();
+                                }, 1000);
+                            }
+                        }
+                    });
+                });
+            } catch (err) {
+                console.error("❌ Leaflet Map Setup Failed:", err.message);
+                mapElement.innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: var(--text-dark); opacity: 0.7;">
+                        <span style="font-size: 2rem;">🗺️</span>
+                        <p style="margin-top: 10px; font-weight: 500;">Failed to load the interactive map.</p>
+                        <p style="font-size: 0.85rem; opacity: 0.8;">Please check your internet connection or reload the page.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // =========================================================================
+        // Dynamic Review & Rating System (Full-Stack)
+        // =========================================================================
+        function initReviewsSystem(cityKey) {
+            const cityData = destinationsData[cityKey.toLowerCase()];
+            const reviewsContainer = document.getElementById('reviews-list-container');
+            const reviewForm = document.getElementById('submit-review-form');
+            const ratingValInput = document.getElementById('review-rating-val');
+            const starBtns = document.querySelectorAll('.form-star-btn');
+            const statusMsg = document.getElementById('review-status-message');
+            const submitBtn = document.getElementById('submit-review-btn');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            let allReviews = [];
+            let currentFilter = 'all';
+
+            // Star Rating Selector Logic
+            starBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const rating = parseInt(btn.getAttribute('data-rating'), 10);
+                    ratingValInput.value = rating;
+                    updateFormStars(rating);
+                });
+
+                btn.addEventListener('mouseenter', () => {
+                    const rating = parseInt(btn.getAttribute('data-rating'), 10);
+                    highlightStarsHover(rating);
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    const currentRating = parseInt(ratingValInput.value, 10);
+                    updateFormStars(currentRating);
+                });
+            });
+
+            function updateFormStars(rating) {
+                starBtns.forEach(btn => {
+                    const starRating = parseInt(btn.getAttribute('data-rating'), 10);
+                    if (starRating <= rating) {
+                        btn.classList.add('selected');
+                    } else {
+                        btn.classList.remove('selected');
+                    }
+                    btn.classList.remove('hovered');
+                });
+            }
+
+            function highlightStarsHover(rating) {
+                starBtns.forEach(btn => {
+                    const starRating = parseInt(btn.getAttribute('data-rating'), 10);
+                    if (starRating <= rating) {
+                        btn.classList.add('hovered');
+                    } else {
+                        btn.classList.remove('hovered');
+                    }
+                });
+            }
+
+            // Set default initial star rating selection (5 stars)
+            updateFormStars(5);
+
+            // Initial Fetch
+            fetchReviews();
+
+            async function fetchReviews() {
+                try {
+                    const response = await fetch(`/api/reviews/${cityKey}`);
+                    const data = await response.json();
+
+                    if (data.success) {
+                        allReviews = data.reviews || [];
+                        renderReviewsDashboard();
+                        renderReviewsList();
+                    } else {
+                        console.error('❌ Failed to fetch reviews:', data.message);
+                    }
+                } catch (err) {
+                    console.error('❌ Error fetching reviews:', err);
+                }
+            }
+
+            function renderReviewsDashboard() {
+                const avgScoreEl = document.getElementById('avg-rating-score');
+                const avgStarsEl = document.getElementById('avg-stars-display');
+                const totalCountEl = document.getElementById('total-reviews-count');
+
+                const totalReviews = allReviews.length;
+                if (totalReviews === 0) {
+                    avgScoreEl.textContent = '0.0';
+                    avgStarsEl.innerHTML = '☆☆☆☆☆';
+                    totalCountEl.textContent = 'Based on 0 reviews';
+                    
+                    // Reset breakdown bars
+                    for (let i = 1; i <= 5; i++) {
+                        document.getElementById(`bar-${i}`).style.width = '0%';
+                        document.getElementById(`count-${i}`).textContent = '0';
+                    }
+                    return;
+                }
+
+                const sumRating = allReviews.reduce((sum, r) => sum + r.rating, 0);
+                const avgRating = sumRating / totalReviews;
+                avgScoreEl.textContent = avgRating.toFixed(1);
+
+                // Draw star display
+                avgStarsEl.innerHTML = getStarString(avgRating);
+                totalCountEl.textContent = `Based on ${totalReviews} ${totalReviews === 1 ? 'review' : 'reviews'}`;
+
+                // Calculate distribution percentages
+                const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+                allReviews.forEach(r => {
+                    if (distribution[r.rating] !== undefined) {
+                        distribution[r.rating]++;
+                    }
+                });
+
+                for (let i = 1; i <= 5; i++) {
+                    const count = distribution[i];
+                    const percentage = Math.round((count / totalReviews) * 100);
+                    document.getElementById(`bar-${i}`).style.width = `${percentage}%`;
+                    document.getElementById(`count-${i}`).textContent = count;
+                }
+            }
+
+            function getStarString(rating) {
+                const fullStars = Math.floor(rating);
+                const halfStar = (rating % 1) >= 0.5 ? 1 : 0;
+                const emptyStars = 5 - fullStars - halfStar;
+                return '★'.repeat(fullStars) + (halfStar ? '½' : '') + '☆'.repeat(emptyStars);
+            }
+
+            function renderReviewsList() {
+                reviewsContainer.innerHTML = '';
+                
+                // Filter by star selection
+                const filteredReviews = currentFilter === 'all' 
+                    ? allReviews 
+                    : allReviews.filter(r => r.rating === parseInt(currentFilter, 10));
+
+                if (filteredReviews.length === 0) {
+                    reviewsContainer.innerHTML = `
+                        <div class="no-reviews">
+                            No ${currentFilter === 'all' ? '' : currentFilter + '-star'} reviews matching. 
+                            ${currentFilter === 'all' ? 'Be the first to leave a review!' : ''}
+                        </div>
+                    `;
+                    return;
+                }
+
+                filteredReviews.forEach(r => {
+                    const dateStr = new Date(r.created_at).toLocaleDateString(undefined, {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    // Generate user initials avatar
+                    const initials = r.name
+                        .trim()
+                        .split(' ')
+                        .filter(n => n.length > 0)
+                        .map(n => n[0])
+                        .join('')
+                        .substring(0, 2)
+                        .toUpperCase();
+
+                    const card = document.createElement('div');
+                    card.className = 'review-card';
+                    
+                    const avatar = document.createElement('div');
+                    avatar.className = 'review-avatar';
+                    avatar.textContent = initials || '?';
+                    avatar.style.backgroundColor = getAvatarColor(r.name);
+
+                    const content = document.createElement('div');
+                    content.className = 'review-card-content';
+
+                    const header = document.createElement('div');
+                    header.className = 'review-card-header';
+
+                    const nameSpan = document.createElement('h4');
+                    nameSpan.className = 'reviewer-name';
+                    nameSpan.textContent = r.name; // textContent escapes HTML automatically
+
+                    const dateSpan = document.createElement('span');
+                    dateSpan.className = 'review-date';
+                    dateSpan.textContent = dateStr;
+
+                    header.appendChild(nameSpan);
+                    header.appendChild(dateSpan);
+
+                    const ratingDisplay = document.createElement('div');
+                    ratingDisplay.className = 'review-stars';
+                    ratingDisplay.textContent = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+
+                    const text = document.createElement('p');
+                    text.className = 'review-text';
+                    text.textContent = r.comment; // textContent escapes HTML automatically
+
+                    content.appendChild(header);
+                    content.appendChild(ratingDisplay);
+                    content.appendChild(text);
+
+                    card.appendChild(avatar);
+                    card.appendChild(content);
+
+                    reviewsContainer.appendChild(card);
+                });
+            }
+
+            function getAvatarColor(name) {
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) {
+                    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                const colors = [
+                    '#1B263B', '#415A77', '#2A9D8F', '#E76F51', '#264653', 
+                    '#F4A261', '#E9C46A', '#3A86C8', '#8338EC', '#D90429'
+                ];
+                return colors[Math.abs(hash) % colors.length];
+            }
+
+            // Hook up Filter buttons
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    renderReviewsList();
+                });
+            });
+
+            // Review Submission Form
+            reviewForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const nameInput = document.getElementById('review-author-name');
+                const commentInput = document.getElementById('review-comment');
+                const ratingVal = ratingValInput.value;
+
+                const nameVal = nameInput.value.trim();
+                const commentVal = commentInput.value.trim();
+
+                if (!nameVal || !commentVal) return;
+
+                // UI loading state
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+                statusMsg.className = 'review-status-msg';
+                statusMsg.textContent = '';
+
+                try {
+                    const response = await fetch('/api/reviews', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            city_key: cityKey,
+                            name: nameVal,
+                            rating: ratingVal,
+                            comment: commentVal
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        statusMsg.classList.add('success');
+                        statusMsg.textContent = 'Thank you! Your review has been dynamically added to our database.';
+                        
+                        // Clear inputs
+                        nameInput.value = '';
+                        commentInput.value = '';
+                        ratingValInput.value = 5;
+                        updateFormStars(5);
+
+                        // Refresh list
+                        await fetchReviews();
+                    } else {
+                        statusMsg.classList.add('error');
+                        statusMsg.textContent = result.message || 'Error submitting review. Please try again.';
+                    }
+                } catch (err) {
+                    console.error('❌ Submit Review Error:', err);
+                    statusMsg.classList.add('error');
+                    statusMsg.textContent = 'Server database connection error. Please try again later.';
+                } finally {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                }
+            });
+
+            // =========================================================================
+            // Live Local Time & Weather Widget Script
+            // =========================================================================
+            const cityTimezones = {
+                paris: 'Europe/Paris',
+                rome: 'Europe/Rome',
+                vienna: 'Europe/Vienna',
+                amsterdam: 'Europe/Amsterdam',
+                london: 'Europe/London',
+                tokyo: 'Asia/Tokyo',
+                seoul: 'Asia/Seoul',
+                hongkong: 'Asia/Hong_Kong',
+                delhi: 'Asia/Kolkata',
+                bali: 'Asia/Makassar',
+                newyork: 'America/New_York',
+                sanfrancisco: 'America/Los_Angeles',
+                lasvegas: 'America/Los_Angeles',
+                washington: 'America/New_York',
+                hawaii: 'Pacific/Honolulu'
+            };
+
+            const tz = cityTimezones[cityKey.toLowerCase()] || 'UTC';
+            function updateClock() {
+                const clockEl = document.getElementById('sidebar-clock');
+                if (!clockEl) return;
+                const now = new Date();
+                clockEl.textContent = now.toLocaleTimeString('en-US', {
+                    timeZone: tz,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                });
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // Fetch live weather from free public Open-Meteo API
+            function fetchLiveWeather() {
+                const [lat, lng] = cityData.coordinates || [48.8566, 2.3522];
+                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`;
+
+                fetch(weatherUrl)
+                    .then(res => {
+                        if (!res.ok) throw new Error('API response failed');
+                        return res.json();
+                    })
+                    .then(data => {
+                        const current = data.current_weather;
+                        if (current) {
+                            const temp = Math.round(current.temperature);
+                            const code = current.weathercode;
+                            const emoji = getWeatherEmoji(code);
+                            const desc = getWeatherDesc(code);
+                            const wind = current.windspeed;
+                            
+                            const weatherEl = document.getElementById('sidebar-weather');
+                            if (weatherEl) {
+                                weatherEl.innerHTML = `
+                                    <div class="weather-main-row">
+                                        <span class="weather-emoji">${emoji}</span>
+                                        <span class="weather-temp">${temp}°C</span>
+                                    </div>
+                                    <div class="weather-desc">${desc}</div>
+                                    <div class="weather-wind">💨 Wind: ${wind} km/h</div>
+                                `;
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.error('❌ Weather Fetch Error:', err);
+                        const weatherEl = document.getElementById('sidebar-weather');
+                        if (weatherEl) {
+                            weatherEl.innerHTML = `<span class="weather-error">⚠️ Weather unavailable</span>`;
+                        }
+                    });
+            }
+
+            function getWeatherEmoji(code) {
+                if (code === 0) return '☀️';
+                if (code >= 1 && code <= 3) return '⛅';
+                if (code >= 45 && code <= 48) return '🌫️';
+                if (code >= 51 && code <= 55) return '🌧️';
+                if (code >= 61 && code <= 65) return '🌧️';
+                if (code >= 71 && code <= 75) return '❄️';
+                if (code >= 80 && code <= 82) return '🌦️';
+                if (code >= 85 && code <= 86) return '❄️';
+                if (code >= 95 && code <= 99) return '⛈️';
+                return '🌡️';
+            }
+
+            function getWeatherDesc(code) {
+                if (code === 0) return 'Clear Sky';
+                if (code >= 1 && code <= 3) return 'Partly Cloudy';
+                if (code >= 45 && code <= 48) return 'Foggy';
+                if (code >= 51 && code <= 55) return 'Drizzle';
+                if (code >= 61 && code <= 65) return 'Rainy';
+                if (code >= 71 && code <= 75) return 'Snowy';
+                if (code >= 80 && code <= 82) return 'Rain Showers';
+                if (code >= 85 && code <= 86) return 'Snow Showers';
+                if (code >= 95 && code <= 99) return 'Thunderstorm';
+                return 'Fair Climate';
+            }
+
+            fetchLiveWeather();
         }
 
     </script>

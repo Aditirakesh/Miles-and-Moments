@@ -34,6 +34,35 @@
     margin: 0 auto;
 }
 
+/* Section Header Spacing */
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-header h2 {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: var(--heading-color);
+    margin-bottom: 15px;
+}
+
+.section-header p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.packages-section .section-header h2 {
+    color: var(--text-light);
+}
+
+.packages-section .section-header p {
+    color: #A5B4FC;
+    opacity: 1;
+}
+
 /* Service Catalog Section */
 .catalog-section {
     max-width: 1200px;
@@ -49,10 +78,11 @@
 
 .catalog-card {
     background-color: var(--card-bg);
-    border-radius: 12px;
-    padding: 40px 30px;
+    border-radius: 16px;
+    padding: 35px 30px;
     box-shadow: var(--shadow-subtle);
-    border-top: 4px solid var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-top: 5px solid var(--secondary-color);
     transition: var(--transition-smooth);
     display: flex;
     flex-direction: column;
@@ -65,38 +95,66 @@
 }
 
 .catalog-icon {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(65, 90, 119, 0.1), rgba(27, 38, 59, 0.05));
+    border: 1px solid rgba(65, 90, 119, 0.15);
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+}
+
+.catalog-card:hover .catalog-icon {
+    background: linear-gradient(135deg, var(--accent-color), #f3c28c);
+    border-color: var(--accent-color);
+    color: var(--primary-color);
+    transform: scale(1.05);
 }
 
 .catalog-card h3 {
     font-family: var(--font-title);
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     color: var(--heading-color);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    font-weight: 600;
 }
 
 .catalog-card p {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     color: var(--text-dark);
-    opacity: 0.85;
-    margin-bottom: 20px;
+    opacity: 0.8;
+    line-height: 1.6;
+    margin-bottom: 25px;
     flex-grow: 1;
 }
 
 .catalog-link {
     text-decoration: none;
-    color: var(--heading-color);
+    color: var(--secondary-color);
     font-weight: 600;
     font-size: 0.95rem;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    margin-top: auto;
     transition: var(--transition-smooth);
+}
+
+.catalog-link span {
+    display: inline-block;
+    transition: transform 0.3s ease;
 }
 
 .catalog-link:hover {
     color: var(--accent-color);
+}
+
+.catalog-link:hover span {
+    transform: translateX(5px);
 }
 
 /* Pricing / Planning Packages */
@@ -119,10 +177,10 @@
 }
 
 .package-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 40px 30px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 45px 35px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -131,31 +189,37 @@
 
 .package-card:hover {
     transform: translateY(-10px);
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
     border-color: var(--accent-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .package-card.popular {
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 2px solid var(--accent-color);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 2.5px solid var(--accent-color);
     transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .package-card.popular:hover {
     transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
 }
 
 .badge {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: var(--accent-color);
     color: var(--primary-color);
     font-size: 0.75rem;
     font-weight: 700;
-    padding: 5px 12px;
+    padding: 6px 16px;
     border-radius: 20px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .package-card h3 {
@@ -182,20 +246,32 @@
     list-style: none;
     margin-bottom: 35px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
 .package-features li {
     font-size: 0.95rem;
-    margin-bottom: 12px;
+    color: #E2E8F0;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .package-features li::before {
     content: '✓';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(224, 169, 109, 0.18);
     color: var(--accent-color);
-    font-weight: bold;
+    font-size: 0.72rem;
+    font-weight: 800;
+    flex-shrink: 0;
 }
 
 .btn-package {

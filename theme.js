@@ -24,6 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 8. Hero Typing Animation
     initTypingAnimation();
+
+    // 9. Smart Sticky Header (Hide on scroll down, show on scroll up)
+    initSmartHeader();
+
+    // 10. User Authentication Header Dropdown & Session Setup
+    initUserSessionHeader();
 });
 
 /**
@@ -350,3 +356,208 @@ function initTypingAnimation() {
 
     setTimeout(type, 800); // Start after 0.8s for smooth load transition
 }
+
+/**
+ * Smart Sticky Header: Hides header on scroll down, reveals on scroll up
+ */
+function initSmartHeader() {
+    const header = document.querySelector('.main-header');
+    if (!header) return;
+
+    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Prevent trigger on negative bounce scroll in iOS
+        if (currentScrollY < 0) return;
+
+        // If scrolling down and scrolled past header height, hide it
+        if (currentScrollY > lastScrollY && currentScrollY > 80) {
+            header.classList.add('header-hidden');
+        } else {
+            // If scrolling up, show it
+            header.classList.remove('header-hidden');
+        }
+
+        lastScrollY = currentScrollY;
+    }, { passive: true });
+}
+
+/**
+ * Dynamic Session Header and Footer Subscriber guard
+ */
+function initUserSessionHeader() {
+    const headerContainer = document.querySelector('.header-container');
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!headerContainer || !themeToggle) return;
+
+    // Group theme toggle and auth actions in a wrapper to prevent wide flexbox spacing
+    let headerActions = document.querySelector('.header-actions');
+    if (!headerActions) {
+        headerActions = document.createElement('div');
+        headerActions.className = 'header-actions';
+        themeToggle.parentNode.insertBefore(headerActions, themeToggle);
+        headerActions.appendChild(themeToggle);
+    }
+
+    fetch('/api/auth/me')
+        .then(res => res.json())
+        .then(data => {
+            // Page Guard Logic
+            const pathname = window.location.pathname.toLowerCase();
+            const isProtected = pathname.endsWith('services.html') || 
+                                pathname.endsWith('contact.html') || 
+                                pathname.endsWith('quiz.html') ||
+                                pathname.endsWith('budget.html') ||
+                                pathname.endsWith('destination.html');
+            const isAdminPage = pathname.endsWith('admin.html');
+
+            // Create wrapper element for header auth actions
+            const authWrapper = document.createElement('div');
+            authWrapper.className = 'header-auth-wrapper';
+
+            if (data.success && data.user) {
+                // User is logged in! Create profile initials avatar
+                const user = data.user;
+                
+                // Check if user is trying to view admin page but is not an admin
+                if (isAdminPage && user.role !== 'admin') {
+                    showLockScreen('Access Denied', 'Administrator privileges are required to view the inquiry logs and subscriber lists.', true);
+                    return;
+                }
+
+                const initials = user.username
+                    .trim()
+                    .split(' ')
+                    .filter(n => n.length > 0)
+                    .map(n => n[0])
+                    .join('')
+                    .substring(0, 2)
+                    .toUpperCase() || '👤';
+
+                authWrapper.innerHTML = `
+                    <div class="user-profile-dropdown">
+                        <button class="profile-badge-btn" id="profile-dropdown-btn" title="View account options">
+                            <span class="user-initials">${initials}</span>
+                        </button>
+                        <div class="profile-dropdown-menu" id="profile-dropdown-menu">
+                            <div class="menu-user-info">
+                                <span class="menu-username">${user.username}</span>
+                                <span class="menu-email">${user.email}</span>
+                            </div>
+                            <div class="menu-divider"></div>
+                            ${user.role === 'admin' ? '<a href="admin.html" class="menu-item admin-link">🔧 Admin Panel</a>' : ''}
+                            <a href="#" class="menu-item" id="logout-menu-btn">🚪 Sign Out</a>
+                        </div>
+                    </div>
+                `;
+
+                // Append to headerActions
+                headerActions.appendChild(authWrapper);
+
+                // Dropdown Toggle Event
+                const dropdownBtn = document.getElementById('profile-dropdown-btn');
+                const dropdownMenu = document.getElementById('profile-dropdown-menu');
+                if (dropdownBtn && dropdownMenu) {
+                    dropdownBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        dropdownMenu.classList.toggle('show');
+                    });
+                    document.addEventListener('click', () => {
+                        dropdownMenu.classList.remove('show');
+                    });
+                }
+
+                // Logout Handler
+                const logoutBtn = document.getElementById('logout-menu-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        try {
+                            const res = await fetch('/api/auth/logout', { method: 'POST' });
+                            const logoutResult = await res.json();
+                            if (logoutResult.success) {
+                                window.location.reload();
+                            }
+                        } catch (err) {
+                            console.error('Logout failed:', err);
+                        }
+                    });
+                }
+            } else {
+                // User is guest! Check page access restrictions
+                if (isProtected || isAdminPage) {
+                    showLockScreen('Authentication Required', 'Please Sign In or Register to unlock the full features of this page.', false);
+                    return;
+                }
+
+                // Show "Sign In" button
+                authWrapper.innerHTML = `
+                    <a href="login.html" class="nav-signin-btn">
+                        <span>👤</span> Sign In
+                    </a>
+                `;
+                // Append to headerActions
+                headerActions.appendChild(authWrapper);
+
+                // Disable newsletter forms and display "Please login/signup to continue"
+                const newsletterForms = document.querySelectorAll('.newsletter-form');
+                newsletterForms.forEach(form => {
+                    const input = form.querySelector('input[type="email"]');
+                    const btn = form.querySelector('button[type="submit"]');
+                    if (input) input.disabled = true;
+                    if (btn) btn.disabled = true;
+
+                    // Remove onsubmit inline alert, if present
+                    form.removeAttribute('onsubmit');
+                    form.onsubmit = null;
+
+                    const prompt = document.createElement('div');
+                    prompt.className = 'newsletter-login-prompt';
+                    prompt.innerHTML = 'Please <a href="login.html">login/signup</a> to continue';
+                    form.appendChild(prompt);
+                });
+            }
+        })
+        .catch(err => console.error('Error fetching user auth session:', err));
+}
+
+/**
+ * Renders a glassmorphic fullscreen page lock overlay
+ */
+function showLockScreen(title, message, isLoggedIn) {
+    // Disable interaction with the body (scroll lock)
+    document.body.style.overflow = 'hidden';
+
+    // Add blurred filter to the page content
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+        mainEl.style.filter = 'blur(8px)';
+        mainEl.style.pointerEvents = 'none';
+        mainEl.style.userSelect = 'none';
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'auth-lock-overlay';
+    
+    const relativeUrl = window.location.pathname.split('/').pop() + window.location.search;
+    const loginLink = isLoggedIn ? 'login.html?logout=true' : 'login.html?redirect=' + encodeURIComponent(relativeUrl);
+    const buttonText = isLoggedIn ? 'Log In as Admin' : 'Sign In / Register';
+
+    overlay.innerHTML = `
+        <div class="auth-lock-card">
+            <div class="lock-icon-container">🔒</div>
+            <h2>${title}</h2>
+            <p>${message}</p>
+            <div class="auth-lock-buttons">
+                <a href="${loginLink}" class="btn-lock-signin">${buttonText}</a>
+                <a href="new1.html" class="btn-lock-home">Go Back Home</a>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+}
+
+

@@ -444,3 +444,310 @@ body.dark-theme .bookmark-btn.active {
 .bookmark-btn:active {
     transform: scale(0.9);
 }
+
+/* =========================================================================
+   Interactive Travel Budget Cost Estimator
+   ========================================================================= */
+.calculator-section {
+    max-width: 1200px;
+    margin: 40px auto 60px;
+    padding: 0 20px;
+}
+
+.calculator-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: var(--shadow-medium);
+}
+
+.calc-inputs-panel h2 {
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    color: var(--heading-color);
+    margin-bottom: 8px;
+}
+
+.calc-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    opacity: 0.7;
+    margin-bottom: 30px;
+}
+
+.calc-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.calc-form-group label {
+    font-family: var(--font-title);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    opacity: 0.85;
+}
+
+.calc-select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg);
+    color: var(--text-dark);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.calc-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background-color: var(--input-focus-bg);
+    box-shadow: 0 0 0 3px rgba(224, 169, 109, 0.15);
+}
+
+/* Custom range slider input */
+.calc-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border-color);
+    outline: none;
+    transition: background 0.3s ease;
+}
+
+.calc-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
+    box-shadow: var(--shadow-subtle);
+}
+
+.calc-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: #ffca8c;
+}
+
+.highlight-val {
+    color: var(--accent-color);
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* Radio buttons list */
+.calc-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+.calc-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    position: relative;
+}
+
+.calc-radio-label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    transition: var(--transition-smooth);
+    background-color: var(--input-bg);
+}
+
+.calc-radio-label:hover input[type="radio"] ~ .radio-custom {
+    border-color: var(--accent-color);
+}
+
+.calc-radio-label input[type="radio"]:checked ~ .radio-custom {
+    border-color: var(--accent-color);
+    background-color: var(--accent-color);
+}
+
+.radio-custom::after {
+    content: '';
+    position: absolute;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+body.dark-theme .radio-custom::after {
+    background-color: var(--primary-color);
+}
+
+.calc-radio-label input[type="radio"]:checked ~ .radio-custom::after {
+    display: block;
+}
+
+.calc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Outputs Visual Details Column */
+.calc-outputs-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 35px;
+    justify-content: center;
+}
+
+.grand-total-box {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 25px;
+}
+
+.grand-total-box h3 {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.total-inr {
+    font-family: var(--font-title);
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.1;
+}
+
+.total-local {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--accent-color);
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* Visual SVG progress circle gauges */
+.gauges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.gauge-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow-subtle);
+    transition: var(--transition-smooth);
+}
+
+.gauge-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-color);
+}
+
+.progress-circle {
+    width: 68px;
+    height: 68px;
+    transform: rotate(-90deg);
+    margin-bottom: 10px;
+}
+
+.bg-circle {
+    fill: none;
+    stroke: var(--light-bg);
+    stroke-width: 8px;
+}
+
+body.dark-theme .bg-circle {
+    stroke: rgba(255, 255, 255, 0.05);
+}
+
+.fg-circle {
+    fill: none;
+    stroke-width: 8px;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gauge-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    opacity: 0.6;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.gauge-val {
+    font-family: var(--font-title);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Responsive constraints rules */
+@media (max-width: 992px) {
+    .calculator-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 576px) {
+    .calc-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .gauges-grid {
+        grid-template-columns: 1fr;
+    }
+}

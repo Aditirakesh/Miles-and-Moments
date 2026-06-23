@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In & Register | Miles & Moments</title>
+    <link rel="stylesheet" href="common.css">
+    <script src="theme.js" defer></script>
+    <style>
+        /* Specific Styles for Authentication Page */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-bg);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+
+        .auth-container {
+            display: flex;
+            width: 1000px;
+            max-width: 95%;
+            height: 600px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Left Side: Creative Panel */
+        .auth-banner {
+            flex: 1.1;
+            background-image: linear-gradient(135deg, rgba(27, 38, 59, 0.75), rgba(11, 19, 43, 0.95)), url('paris_hd.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-light);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .auth-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(224, 169, 109, 0.15), transparent 70%);
+            pointer-events: none;
+        }
+
+        .banner-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .banner-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            border: 2px solid var(--accent-color);
+            object-fit: cover;
+        }
+
+        .banner-title {
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+        }
+
+        .banner-tagline {
+            font-family: var(--font-accent);
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            display: block;
+            margin-top: -2px;
+        }
+
+        .banner-body h2 {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 15px;
+        }
+
+        .banner-body h2 span {
+            color: var(--accent-color);
+        }
+
+        .banner-body p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            line-height: 1.5;
+            max-width: 320px;
+        }
+
+        .banner-footer {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-left: 2px solid var(--accent-color);
+            padding-left: 15px;
+        }
+
+        /* Right Side: Form Panel */
+        .auth-form-panel {
+            flex: 0.9;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            background-color: var(--card-bg);
+            transition: var(--transition-smooth);
+        }
+
+        .form-container {
+            width: 100%;
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-container h3 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            color: var(--heading-color);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .form-container p.subtitle {
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            opacity: 0.65;
+            margin-bottom: 30px;
+        }
+
+        /* Float Label Input Groups */
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-dark);
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            padding: 0 4px;
+            color: var(--text-dark);
+            opacity: 0.5;
+            font-size: 0.92rem;
+            pointer-events: none;
+            transition: 0.2s ease-all;
+        }
+
+        .input-group input:focus,
+        .input-group input:not(:placeholder-shown) {
+            border-color: var(--accent-color);
+            background-color: var(--input-focus-bg);
+            box-shadow: 0 0 0 3px rgba(224, 169, 109, 0.15);
+        }
+
+        .input-group input:focus ~ label,
+        .input-group input:not(:placeholder-shown) ~ label {
+            top: 0;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            color: var(--accent-color);
+            background-color: var(--card-bg);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 13px;
+            font-family: var(--font-title);
+            font-size: 0.95rem;
+            font-weight: 600;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: var(--shadow-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .auth-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--accent-color);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-1px);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn-spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toggle Link Section */
+        .form-footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            opacity: 0.75;
+        }
+
+        .form-footer a,
+        .form-footer a:link,
+        .form-footer a:visited {
+            color: var(--accent-color) !important;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 4px;
+            transition: var(--transition-smooth);
+        }
+
+        .form-footer a:hover,
+        .form-footer a:active {
+            color: #ffca8c !important;
+            text-decoration: underline;
+        }
+
+        /* Messages */
+        .auth-status-msg {
+            margin-top: 15px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .auth-status-msg.error {
+            display: block;
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #DC2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .auth-status-msg.success {
+            display: block;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 900px) {
+            .auth-container {
+                height: auto;
+                flex-direction: column;
+            }
+            .auth-banner {
+                padding: 40px;
+                min-height: 220px;
+                justify-content: flex-start;
+                gap: 30px;
+            }
+            .banner-body {
+                margin: 20px 0;
+            }
+            .banner-body p {
+                max-width: 100%;
+            }
+            .banner-footer {
+                display: none;
+            }
+            .auth-form-panel {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Apply theme immediately to prevent FOUC (Flash of Unstyled Content)
+        (function() {
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (currentTheme === 'light') {
+                document.body.classList.remove('dark-theme');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark-theme');
+            }
+        })();
+    </script>
+
+    <div class="auth-container">
+        <!-- Banner Side -->
+        <div class="auth-banner">
+            <div class="banner-header">
+                <img src="logo1.jpg" alt="Logo" class="banner-logo">
+                <div>
+                    <span class="banner-title">Miles & Moments</span>
+                    <span class="banner-tagline">Explore, Dream, Discover</span>
+                </div>
+            </div>
+            
+            <div class="banner-body">
+                <h2>Begin Your Next <span>Wanderlust</span> Chapter</h2>
+                <p>Register an account to bookmark destinations, access travel quizzes, and plan custom budgets.</p>
+            </div>
+
+            <div class="banner-footer">
+                "Not all those who wander are lost." — J.R.R. Tolkien
+            </div>
+        </div>
+
+        <!-- Forms Side -->
+        <div class="auth-form-panel">
+            
+            <!-- LOGIN FORM -->
+            <div class="form-container active" id="login-container">
+                <h3>Welcome Back</h3>
+                <p class="subtitle">Sign in to unlock personalized planning features.</p>
+                
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="email" id="login-email" required placeholder=" ">
+                        <label for="login-email">Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" required placeholder=" ">
+                        <label for="login-password">Password</label>
+                    </div>
+
+                    <button type="submit" class="auth-btn" id="login-btn">
+                        <span class="btn-spinner"></span>
+                        <span class="btn-text">Sign In</span>
+                    </button>
+                </form>
+
+                <div class="auth-status-msg" id="login-status"></div>
+
+                <div class="form-footer">
+                    New traveler? <a href="#" id="to-signup-btn">Create an account</a>
+                </div>
+            </div>
+
+            <!-- SIGNUP FORM -->
+            <div class="form-container" id="signup-container">
+                <h3>Join the Journey</h3>
+                <p class="subtitle">Register today and plan your dream travel itinerary.</p>
+                
+                <form id="signup-form">
+                    <div class="input-group">
+                        <input type="text" id="signup-username" required placeholder=" ">
+                        <label for="signup-username">Username</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="signup-email" required placeholder=" ">
+                        <label for="signup-email">Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="signup-password" required placeholder=" " minlength="6">
+                        <label for="signup-password">Password (min. 6 characters)</label>
+                    </div>
+
+                    <button type="submit" class="auth-btn" id="signup-btn">
+                        <span class="btn-spinner"></span>
+                        <span class="btn-text">Register Account</span>
+                    </button>
+                </form>
+
+                <div class="auth-status-msg" id="signup-status"></div>
+
+                <div class="form-footer">
+                    Already have an account? <a href="#" id="to-login-btn">Sign in here</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginContainer = document.getElementById('login-container');
+            const signupContainer = document.getElementById('signup-container');
+            
+            const toSignupBtn = document.getElementById('to-signup-btn');
+            const toLoginBtn = document.getElementById('to-login-btn');
+
+            // Slide Toggle Logic
+            toSignupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginContainer.classList.remove('active');
+                signupContainer.classList.add('active');
+            });
+
+            toSignupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginContainer.classList.remove('active');
+                signupContainer.classList.add('active');
+            });
+
+            toLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupContainer.classList.remove('active');
+                loginContainer.classList.add('active');
+            });
+
+            // Redirect Handler Helper
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectPage = urlParams.get('redirect');
+            const shouldLogout = urlParams.get('logout');
+
+            if (shouldLogout === 'true') {
+                // Silently logout first so they can re-authenticate
+                fetch('/api/auth/logout', { method: 'POST' }).catch(err => console.error(err));
+            }
+
+            function performRedirect(msg) {
+                setTimeout(() => {
+                    if (redirectPage) {
+                        window.location.href = decodeURIComponent(redirectPage);
+                    } else {
+                        window.location.href = 'new1.html'; // Default home
+                    }
+                }, 1000);
+            }
+
+            // Handle Login Submission
+            const loginForm = document.getElementById('login-form');
+            const loginBtn = document.getElementById('login-btn');
+            const loginStatus = document.getElementById('login-status');
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                // Loading State
+                loginBtn.disabled = true;
+                loginBtn.querySelector('.btn-spinner').style.display = 'block';
+                loginStatus.className = 'auth-status-msg';
+                loginStatus.textContent = '';
+
+                try {
+                    const res = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await res.json();
+
+                    if (data.success) {
+                        loginStatus.classList.add('success');
+                        loginStatus.textContent = data.message || 'Log in successful!';
+                        performRedirect();
+                    } else {
+                        loginStatus.classList.add('error');
+                        loginStatus.textContent = data.message || 'Incorrect credentials.';
+                        loginBtn.disabled = false;
+                        loginBtn.querySelector('.btn-spinner').style.display = 'none';
+                    }
+                } catch (err) {
+                    console.error('Login error:', err);
+                    loginStatus.classList.add('error');
+                    loginStatus.textContent = 'Server database error. Please try again.';
+                    loginBtn.disabled = false;
+                    loginBtn.querySelector('.btn-spinner').style.display = 'none';
+                }
+            });
+
+            // Handle Signup Submission
+            const signupForm = document.getElementById('signup-form');
+            const signupBtn = document.getElementById('signup-btn');
+            const signupStatus = document.getElementById('signup-status');
+
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const username = document.getElementById('signup-username').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+
+                // Loading State
+                signupBtn.disabled = true;
+                signupBtn.querySelector('.btn-spinner').style.display = 'block';
+                signupStatus.className = 'auth-status-msg';
+                signupStatus.textContent = '';
+
+                try {
+                    const res = await fetch('/api/auth/signup', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, email, password })
+                    });
+                    const data = await res.json();
+
+                    if (data.success) {
+                        signupStatus.classList.add('success');
+                        signupStatus.textContent = data.message || 'Account registered successfully!';
+                        performRedirect();
+                    } else {
+                        signupStatus.classList.add('error');
+                        signupStatus.textContent = data.message || 'Registration failed.';
+                        signupBtn.disabled = false;
+                        signupBtn.querySelector('.btn-spinner').style.display = 'none';
+                    }
+                } catch (err) {
+                    console.error('Signup error:', err);
+                    signupStatus.classList.add('error');
+                    signupStatus.textContent = 'Server database error. Please try again.';
+                    signupBtn.disabled = false;
+                    signupBtn.querySelector('.btn-spinner').style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

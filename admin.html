@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="common.css">
+    <!-- Chart.js Data Visualization Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="theme.js" defer></script>
     <title>Admin Dashboard | Miles & Moments</title>
     <style>
@@ -211,8 +214,53 @@
                 padding: 20px;
             }
         }
+
+        /* Analytics Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .chart-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .chart-card:hover {
+            box-shadow: var(--shadow-medium);
+            border-color: var(--accent-color);
+        }
+
+        .chart-card h3 {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            color: var(--heading-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 6px;
+            display: inline-block;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Main Header -->
@@ -228,6 +276,8 @@
             <nav class="nav-links">
                 <a href="new1.html" class="nav-link" id="nav-home">Home</a>
                 <a href="new.html" class="nav-link" id="nav-explore">Explore</a>
+                <a href="budget.html" class="nav-link" id="nav-budget">Budget</a>
+                <a href="quiz.html" class="nav-link" id="nav-quiz">Quiz</a>
                 <a href="about.html" class="nav-link" id="nav-about">About</a>
                 <a href="services.html" class="nav-link" id="nav-services">Services</a>
                 <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
@@ -249,14 +299,16 @@
 
         <!-- Stats Overview Cards -->
         <div class="stats-grid">
-            <div class="stat-card" onclick="document.querySelector('.tab-btn[onclick*=\'tab-subscribers\']').click();">
+            <div class="stat-card"
+                onclick="document.getElementById('btn-tab-subscribers').click(); document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });">
                 <div class="stat-icon">✉️</div>
                 <div class="stat-info">
                     <h3>Subscribers</h3>
                     <div id="stat-subscribers-count" class="stat-number">-</div>
                 </div>
             </div>
-            <div class="stat-card" onclick="document.querySelector('.tab-btn[onclick*=\'tab-inquiries\']').click();">
+            <div class="stat-card"
+                onclick="document.getElementById('btn-tab-inquiries').click(); document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });">
                 <div class="stat-icon">📝</div>
                 <div class="stat-info">
                     <h3>Tour Inquiries</h3>
@@ -265,11 +317,29 @@
             </div>
         </div>
 
+        <!-- Analytics Charts Grid -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Tour Package Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="packagesChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Newsletter Signups Over Time</h3>
+                <div class="chart-container">
+                    <canvas id="signupsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <!-- Table Panel -->
         <div class="admin-panel">
             <div class="tabs-header">
-                <button class="tab-btn active" onclick="switchAdminTab(event, 'tab-inquiries')">Inquiries Logs</button>
-                <button class="tab-btn" onclick="switchAdminTab(event, 'tab-subscribers')">Mailing List</button>
+                <button id="btn-tab-inquiries" class="tab-btn active"
+                    onclick="switchAdminTab(event, 'tab-inquiries')">Inquiries Logs</button>
+                <button id="btn-tab-subscribers" class="tab-btn"
+                    onclick="switchAdminTab(event, 'tab-subscribers')">Mailing List</button>
             </div>
 
             <!-- Inquiries Tab Pane -->
@@ -320,7 +390,8 @@
         <div class="footer-container">
             <div class="footer-info">
                 <h3>Miles & Moments</h3>
-                <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel planning.</p>
+                <p>Journey Beyond Boundaries - Explore, Dream, Discover. Built to inspire wanderlust and simplify travel
+                    planning.</p>
                 <div class="social-links">
                     <a href="#" class="social-icon">Instagram</a>
                     <a href="#" class="social-icon">Facebook</a>
@@ -333,6 +404,8 @@
                 <ul>
                     <li><a href="new1.html">Home</a></li>
                     <li><a href="new.html">Destinations</a></li>
+                    <li><a href="budget.html">Budget Calculator</a></li>
+                    <li><a href="quiz.html">Travel Quiz</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
@@ -370,6 +443,22 @@
             document.getElementById(tabId).classList.add('active');
         }
 
+        // Keep references to active Chart.js instances to allow clean updates
+        let packagesChartInstance = null;
+        let signupsChartInstance = null;
+
+        let latestInquiries = [];
+        let latestSubscribers = [];
+
+        const typeMap = {
+            general: 'General Query',
+            explorer: 'Explorer Plan ($29)',
+            wanderlust: 'Wanderlust Premium ($79)',
+            nomad: 'Nomad Elite ($149)',
+            licensing: 'Media Licensing',
+            partnership: 'Brand Partnership'
+        };
+
         function fetchAdminData() {
             // 1. Fetch Inquiries
             fetch('/api/admin/inquiries')
@@ -377,23 +466,28 @@
                 .then(data => {
                     const tbody = document.getElementById('inquiries-list');
                     const countEl = document.getElementById('stat-inquiries-count');
-                    
+
                     if (data.success && data.inquiries.length > 0) {
+                        latestInquiries = data.inquiries;
                         countEl.innerText = data.inquiries.length;
                         tbody.innerHTML = data.inquiries.map(inq => {
                             const date = new Date(inq.submitted_at).toLocaleDateString('en-US', {
                                 month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                             });
+                            const displayType = typeMap[inq.inquiry_type] || inq.inquiry_type || 'General Query';
                             return `
                                 <tr>
                                     <td>${date}</td>
                                     <td><strong>${escapeHtml(inq.name)}</strong></td>
                                     <td><a href="mailto:${inq.email}">${escapeHtml(inq.email)}</a></td>
-                                    <td><span class="status-badge status-pending">${escapeHtml(inq.inquiry_type)}</span></td>
+                                    <td><span class="status-badge status-pending">${escapeHtml(displayType)}</span></td>
                                     <td>${escapeHtml(inq.message)}</td>
                                 </tr>
                             `;
                         }).join('');
+
+                        // Render inquiries distribution doughnut chart
+                        renderPackagesChart(data.inquiries);
                     } else {
                         countEl.innerText = '0';
                         tbody.innerHTML = `<tr><td colspan="5" class="empty-state">No inquiries logged yet.</td></tr>`;
@@ -410,8 +504,9 @@
                 .then(data => {
                     const tbody = document.getElementById('subscribers-list');
                     const countEl = document.getElementById('stat-subscribers-count');
-                    
+
                     if (data.success && data.subscribers.length > 0) {
+                        latestSubscribers = data.subscribers;
                         countEl.innerText = data.subscribers.length;
                         tbody.innerHTML = data.subscribers.map(sub => {
                             const date = new Date(sub.subscribed_at).toLocaleDateString('en-US', {
@@ -424,6 +519,9 @@
                                 </tr>
                             `;
                         }).join('');
+
+                        // Render subscriber signups over time line chart
+                        renderSignupsChart(data.subscribers);
                     } else {
                         countEl.innerText = '0';
                         tbody.innerHTML = `<tr><td colspan="2" class="empty-state">Mailing list is empty.</td></tr>`;
@@ -435,6 +533,149 @@
                 });
         }
 
+        // Doughnut chart summarizing package types
+        function renderPackagesChart(inquiries) {
+            const canvas = document.getElementById('packagesChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const counts = {};
+            inquiries.forEach(inq => {
+                const rawType = inq.inquiry_type || 'general';
+                const type = typeMap[rawType] || rawType.charAt(0).toUpperCase() + rawType.slice(1);
+                counts[type] = (counts[type] || 0) + 1;
+            });
+
+            const labels = Object.keys(counts);
+            const data = Object.values(counts);
+
+            if (packagesChartInstance) {
+                packagesChartInstance.destroy();
+            }
+
+            packagesChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            '#2A9D8F', '#E0A96D', '#4895EF', '#E76F51', '#9B5DE5', '#E9C46A'
+                        ],
+                        borderWidth: 2,
+                        borderColor: getComputedStyle(document.body).getPropertyValue('--card-bg').trim() || '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: getComputedStyle(document.body).getPropertyValue('--text-dark').trim() || '#0D1B2A',
+                                padding: 15,
+                                font: {
+                                    family: 'Inter',
+                                    size: 11,
+                                    weight: '500'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Line chart showing subscribers signups progression over time
+        function renderSignupsChart(subscribers) {
+            const canvas = document.getElementById('signupsChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const dateCounts = {};
+            subscribers.forEach(sub => {
+                const date = new Date(sub.subscribed_at);
+                const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                dateCounts[label] = (dateCounts[label] || 0) + 1;
+            });
+
+            // Reconstruct array chronologically (subscribers lists are DESC from DB)
+            const sortedLabels = Object.keys(dateCounts).reverse();
+            const dailyCounts = sortedLabels.map(label => dateCounts[label]);
+
+            // Running total computation
+            let total = 0;
+            const runningTotals = dailyCounts.map(count => {
+                total += count;
+                return total;
+            });
+
+            if (signupsChartInstance) {
+                signupsChartInstance.destroy();
+            }
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+            gradient.addColorStop(0, 'rgba(224, 169, 109, 0.4)');
+            gradient.addColorStop(1, 'rgba(224, 169, 109, 0.0)');
+
+            signupsChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: sortedLabels,
+                    datasets: [{
+                        label: 'Accumulated Subscribers',
+                        data: runningTotals,
+                        borderColor: '#E0A96D',
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#1B263B',
+                        pointBorderColor: '#E0A96D',
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: '#E0A96D'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: getComputedStyle(document.body).getPropertyValue('--text-dark').trim() || '#0D1B2A',
+                                font: {
+                                    family: 'Inter',
+                                    size: 11
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: getComputedStyle(document.body).getPropertyValue('--border-color').trim() || 'rgba(0, 0, 0, 0.08)'
+                            },
+                            ticks: {
+                                precision: 0,
+                                color: getComputedStyle(document.body).getPropertyValue('--text-dark').trim() || '#0D1B2A',
+                                font: {
+                                    family: 'Inter',
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
         function escapeHtml(string) {
             const map = {
                 '&': '&amp;',
@@ -443,8 +684,26 @@
                 '"': '&quot;',
                 "'": '&#039;'
             };
-            return String(string).replace(/[&<>"']/g, function(m) { return map[m]; });
+            return String(string).replace(/[&<>"']/g, function (m) { return map[m]; });
         }
+
+        // Listen for theme toggle clicks to redraw charts with updated CSS variables
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    setTimeout(() => {
+                        if (latestInquiries && latestInquiries.length > 0) {
+                            renderPackagesChart(latestInquiries);
+                        }
+                        if (latestSubscribers && latestSubscribers.length > 0) {
+                            renderSignupsChart(latestSubscribers);
+                        }
+                    }, 150);
+                });
+            }
+        });
     </script>
 </body>
+
 </html>

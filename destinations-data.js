@@ -3,6 +3,7 @@
 const destinationsData = {
   paris: {
     name: "Paris",
+    coordinates: [48.8566, 2.3522],
     currencyCode: "EUR",
     exchangeRate: 0.92,
     region: "Europe",
@@ -14,10 +15,10 @@ const destinationsData = {
     currency: "Euro (€)",
     language: "French",
     highlights: [
-      { name: "Eiffel Tower", desc: "Scale the world's most famous iron tower for breathtaking panoramic views of the city.", icon: "🗼" },
-      { name: "The Louvre", desc: "Explore the world's largest art museum, home to the Mona Lisa and Venus de Milo.", icon: "🎨" },
-      { name: "Montmartre & Sacré-Cœur", desc: "Wander through winding cobblestone streets of the historic artist quarter.", icon: "⛪" },
-      { name: "Seine River Cruise", desc: "Enjoy a twilight boat ride to see illuminated historic monuments along the banks.", icon: "🚢" }
+      { name: "Eiffel Tower", desc: "Scale the world's most famous iron tower for breathtaking panoramic views of the city.", icon: "🗼", coordinates: [48.8584, 2.2945] },
+      { name: "The Louvre", desc: "Explore the world's largest art museum, home to the Mona Lisa and Venus de Milo.", icon: "🎨", coordinates: [48.8606, 2.3376] },
+      { name: "Montmartre & Sacré-Cœur", desc: "Wander through winding cobblestone streets of the historic artist quarter.", icon: "⛪", coordinates: [48.8867, 2.3431] },
+      { name: "Seine River Cruise", desc: "Enjoy a twilight boat ride to see illuminated historic monuments along the banks.", icon: "🚢", coordinates: [48.8596, 2.3244] }
     ],
     packing: [
       "Comfortable, stylish walking shoes",
@@ -61,6 +62,7 @@ const destinationsData = {
   },
   rome: {
     name: "Rome",
+    coordinates: [41.9028, 12.4964],
     currencyCode: "EUR",
     exchangeRate: 0.92,
     region: "Europe",
@@ -72,10 +74,10 @@ const destinationsData = {
     currency: "Euro (€)",
     language: "Italian",
     highlights: [
-      { name: "The Colosseum", desc: "Step inside the ancient amphitheater where gladiators once fought.", icon: "🏛️" },
-      { name: "Trevi Fountain", desc: "Toss a coin into the world-famous fountain to guarantee your return to Rome.", icon: "⛲" },
-      { name: "Vatican Museums & Sistine Chapel", desc: "View the vast art collections of the Popes and Michelangelo's masterpiece.", icon: "🎨" },
-      { name: "The Pantheon", desc: "Marvel at the architectural genius of Rome's best-preserved ancient dome.", icon: "🏛️" }
+      { name: "The Colosseum", desc: "Step inside the ancient amphitheater where gladiators once fought.", icon: "🏛️", coordinates: [41.8902, 12.4922] },
+      { name: "Trevi Fountain", desc: "Toss a coin into the world-famous fountain to guarantee your return to Rome.", icon: "⛲", coordinates: [41.9009, 12.4833] },
+      { name: "Vatican Museums & Sistine Chapel", desc: "View the vast art collections of the Popes and Michelangelo's masterpiece.", icon: "🎨", coordinates: [41.9065, 12.4536] },
+      { name: "The Pantheon", desc: "Marvel at the architectural genius of Rome's best-preserved ancient dome.", icon: "🏛️", coordinates: [41.8986, 12.4769] }
     ],
     packing: [
       "Modest clothing covering knees and shoulders (mandatory for Vatican entry)",
@@ -119,6 +121,7 @@ const destinationsData = {
   },
   vienna: {
     name: "Vienna",
+    coordinates: [48.2082, 16.3738],
     currencyCode: "EUR",
     exchangeRate: 0.92,
     region: "Europe",
@@ -130,10 +133,10 @@ const destinationsData = {
     currency: "Euro (€)",
     language: "German",
     highlights: [
-      { name: "Schönbrunn Palace", desc: "Explore the massive summer palace and grand gardens of the Habsburg emperors.", icon: "🏰" },
-      { name: "St. Stephen's Cathedral", desc: "Climb the tower of Vienna's Gothic centerpiece for spectacular views.", icon: "⛪" },
-      { name: "Vienna State Opera", desc: "Attend a world-class concert in one of the most famous opera houses globally.", icon: "🎵" },
-      { name: "Belvedere Palace", desc: "Admire Gustav Klimt's legendary painting 'The Kiss' in a baroque palace.", icon: "🖼️" }
+      { name: "Schönbrunn Palace", desc: "Explore the massive summer palace and grand gardens of the Habsburg emperors.", icon: "🏰", coordinates: [48.1858, 16.3128] },
+      { name: "St. Stephen's Cathedral", desc: "Climb the tower of Vienna's Gothic centerpiece for spectacular views.", icon: "⛪", coordinates: [48.2084, 16.3731] },
+      { name: "Vienna State Opera", desc: "Attend a world-class concert in one of the most famous opera houses globally.", icon: "🎵", coordinates: [48.2030, 16.3691] },
+      { name: "Belvedere Palace", desc: "Admire Gustav Klimt's legendary painting 'The Kiss' in a baroque palace.", icon: "🖼️", coordinates: [48.1915, 16.3809] }
     ],
     packing: [
       "Smart-casual dress wear (ideal for attending classical concerts or upscale cafes)",
@@ -177,6 +180,7 @@ const destinationsData = {
   },
   amsterdam: {
     name: "Amsterdam",
+    coordinates: [52.3676, 4.9041],
     currencyCode: "EUR",
     exchangeRate: 0.92,
     region: "Europe",
@@ -188,10 +192,10 @@ const destinationsData = {
     currency: "Euro (€)",
     language: "Dutch (English is widely spoken)",
     highlights: [
-      { name: "Canal Ring Cruise", desc: "Boat through the UNESCO-listed 17th-century canal ring pathways.", icon: "🛶" },
-      { name: "Rijksmuseum", desc: "See masterworks of Rembrandt and Vermeer in a spectacular national gallery.", icon: "🎨" },
-      { name: "Van Gogh Museum", desc: "View the world's largest collection of paintings and letters by Vincent van Gogh.", icon: "🌻" },
-      { name: "Anne Frank House", desc: "Tour the moving museum and secret annex where Anne Frank hid during WWII.", icon: "📖" }
+      { name: "Canal Ring Cruise", desc: "Boat through the UNESCO-listed 17th-century canal ring pathways.", icon: "🛶", coordinates: [52.3676, 4.9041] },
+      { name: "Rijksmuseum", desc: "See masterworks of Rembrandt and Vermeer in a spectacular national gallery.", icon: "🎨", coordinates: [52.3600, 4.8852] },
+      { name: "Van Gogh Museum", desc: "View the world's largest collection of paintings and letters by Vincent van Gogh.", icon: "🌻", coordinates: [52.3584, 4.8811] },
+      { name: "Anne Frank House", desc: "Tour the moving museum and secret annex where Anne Frank hid during WWII.", icon: "📖", coordinates: [52.3752, 4.8840] }
     ],
     packing: [
       "Compact umbrella or raincoat (rain showers are frequent)",
@@ -235,6 +239,7 @@ const destinationsData = {
   },
   london: {
     name: "London",
+    coordinates: [51.5074, -0.1278],
     currencyCode: "GBP",
     exchangeRate: 0.79,
     region: "Europe",
@@ -246,10 +251,10 @@ const destinationsData = {
     currency: "British Pound (£)",
     language: "English",
     highlights: [
-      { name: "Tower of London & Tower Bridge", desc: "Uncover royal history, see the Crown Jewels, and walk across the famous drawbridge.", icon: "🏰" },
-      { name: "British Museum", desc: "Explore human history and culture, home to the Rosetta Stone and Egyptian mummies.", icon: "🏛️" },
-      { name: "London Eye", desc: "Take a ride on the giant observation wheel for spectacular skyline views.", icon: "🎡" },
-      { name: "Westminster Abbey & Big Ben", desc: "Marvel at the Gothic architecture of parliament and royalty.", icon: "🔔" }
+      { name: "Tower of London & Tower Bridge", desc: "Uncover royal history, see the Crown Jewels, and walk across the famous drawbridge.", icon: "🏰", coordinates: [51.5081, -0.0759] },
+      { name: "British Museum", desc: "Explore human history and culture, home to the Rosetta Stone and Egyptian mummies.", icon: "🏛️", coordinates: [51.5194, -0.1270] },
+      { name: "London Eye", desc: "Take a ride on the giant observation wheel for spectacular skyline views.", icon: "🎡", coordinates: [51.5033, -0.1195] },
+      { name: "Westminster Abbey & Big Ben", desc: "Marvel at the Gothic architecture of parliament and royalty.", icon: "🔔", coordinates: [51.4994, -0.1273] }
     ],
     packing: [
       "Sturdy umbrella (London rain is legendary)",
@@ -293,6 +298,7 @@ const destinationsData = {
   },
   tokyo: {
     name: "Tokyo",
+    coordinates: [35.6762, 139.6503],
     currencyCode: "JPY",
     exchangeRate: 157.5,
     region: "Asia",
@@ -304,10 +310,10 @@ const destinationsData = {
     currency: "Japanese Yen (¥)",
     language: "Japanese",
     highlights: [
-      { name: "Shibuya Crossing", desc: "Cross the world's busiest pedestrian scramble intersection.", icon: "🚶" },
-      { name: "Senso-ji Temple", desc: "Visit Tokyo's oldest and most iconic Buddhist temple in Asakusa.", icon: "⛩️" },
-      { name: "Meiji Shrine", desc: "Walk through a tranquil forest oasis leading to a grand Shinto shrine.", icon: "🌳" },
-      { name: "Shinjuku & Robot Culture", desc: "Dive into neon-lit entertainment streets and watch skyline views from the Metropolitan Government Building.", icon: "🌆" }
+      { name: "Shibuya Crossing", desc: "Cross the world's busiest pedestrian scramble intersection.", icon: "🚶", coordinates: [35.6580, 139.7016] },
+      { name: "Senso-ji Temple", desc: "Visit Tokyo's oldest and most iconic Buddhist temple in Asakusa.", icon: "⛩️", coordinates: [35.7148, 139.7967] },
+      { name: "Meiji Shrine", desc: "Walk through a tranquil forest oasis leading to a grand Shinto shrine.", icon: "🌳", coordinates: [35.6764, 139.6993] },
+      { name: "Shinjuku & Robot Culture", desc: "Dive into neon-lit entertainment streets and watch skyline views from the Metropolitan Government Building.", icon: "🌆", coordinates: [35.6938, 139.7034] }
     ],
     packing: [
       "Slip-on shoes (many temples and traditional restaurants require removing shoes)",
@@ -351,6 +357,7 @@ const destinationsData = {
   },
   seoul: {
     name: "Seoul",
+    coordinates: [37.5665, 126.9780],
     currencyCode: "KRW",
     exchangeRate: 1380,
     region: "Asia",
@@ -362,10 +369,10 @@ const destinationsData = {
     currency: "South Korean Won (₩)",
     language: "Korean",
     highlights: [
-      { name: "Gyeongbokgung Palace", desc: "Watch the Changing of the Royal Guard in Hanbok traditional dress.", icon: "🏰" },
-      { name: "N Seoul Tower", desc: "Take a cable car up Namsan Mountain for scenic panoramic views.", icon: "🗼" },
-      { name: "Myeongdong Market", desc: "Shop the ultimate cosmetics district and eat delicious street food.", icon: "🛍️" },
-      { name: "Bukchon Hanok Village", desc: "Walk through a preserved neighborhood of 600-year-old traditional homes.", icon: "🏡" }
+      { name: "Gyeongbokgung Palace", desc: "Watch the Changing of the Royal Guard in Hanbok traditional dress.", icon: "🏰", coordinates: [37.5796, 126.9770] },
+      { name: "N Seoul Tower", desc: "Take a cable car up Namsan Mountain for scenic panoramic views.", icon: "🗼", coordinates: [37.5512, 126.9882] },
+      { name: "Myeongdong Market", desc: "Shop the ultimate cosmetics district and eat delicious street food.", icon: "🛍️", coordinates: [37.5636, 126.9846] },
+      { name: "Bukchon Hanok Village", desc: "Walk through a preserved neighborhood of 600-year-old traditional homes.", icon: "🏡", coordinates: [37.5826, 126.9836] }
     ],
     packing: [
       "Comfortable walking shoes (Seoul is very hilly)",
@@ -409,6 +416,7 @@ const destinationsData = {
   },
   hongkong: {
     name: "Hong Kong",
+    coordinates: [22.3193, 114.1694],
     currencyCode: "HKD",
     exchangeRate: 7.8,
     region: "Asia",
@@ -420,10 +428,10 @@ const destinationsData = {
     currency: "Hong Kong Dollar (HK$)",
     language: "Cantonese & English",
     highlights: [
-      { name: "Victoria Peak", desc: "Ride the historic Peak Tram to the top for Hong Kong's ultimate skyline panorama.", icon: "⛰️" },
-      { name: "Star Ferry", desc: "Cross Victoria Harbour on a historic green and white passenger ferry.", icon: "🚢" },
-      { name: "Tian Tan Buddha", desc: "Climb 268 steps to see the giant bronze Buddha on Lantau Island.", icon: "⛩️" },
-      { name: "Temple Street Night Market", desc: "Browse street goods, fortune tellers, and claypot rice eateries.", icon: "🏮" }
+      { name: "Victoria Peak", desc: "Ride the historic Peak Tram to the top for Hong Kong's ultimate skyline panorama.", icon: "⛰️", coordinates: [22.2759, 114.1455] },
+      { name: "Star Ferry", desc: "Cross Victoria Harbour on a historic green and white passenger ferry.", icon: "🚢", coordinates: [22.2938, 114.1687] },
+      { name: "Tian Tan Buddha", desc: "Climb 268 steps to see the giant bronze Buddha on Lantau Island.", icon: "⛩️", coordinates: [22.2541, 113.9050] },
+      { name: "Temple Street Night Market", desc: "Browse street goods, fortune tellers, and claypot rice eateries.", icon: "🏮", coordinates: [22.3069, 114.1700] }
     ],
     packing: [
       "Light jacket (indoor air conditioning is famously freezing)",
@@ -467,6 +475,7 @@ const destinationsData = {
   },
   delhi: {
     name: "Delhi",
+    coordinates: [28.6139, 77.2090],
     currencyCode: "INR",
     exchangeRate: 83.5,
     region: "Asia",
@@ -478,10 +487,10 @@ const destinationsData = {
     currency: "Indian Rupee (₹)",
     language: "Hindi & English",
     highlights: [
-      { name: "Qutub Minar", desc: "Marvel at the world's tallest brick minaret, built in the 12th century.", icon: "🕌" },
-      { name: "Humayun's Tomb", desc: "Explore the spectacular red sandstone tomb that inspired the Taj Mahal.", icon: "🏛️" },
-      { name: "Chandni Chowk", desc: "Ride a rickshaw through chaotic markets packed with spices and sweets.", icon: "🌶️" },
-      { name: "India Gate", desc: "Walk down the ceremonial boulevard to Delhi's iconic war memorial arch.", icon: "🇮🇳" }
+      { name: "Qutub Minar", desc: "Marvel at the world's tallest brick minaret, built in the 12th century.", icon: "🕌", coordinates: [28.5244, 77.1855] },
+      { name: "Humayun's Tomb", desc: "Explore the spectacular red sandstone tomb that inspired the Taj Mahal.", icon: "🏛️", coordinates: [28.5933, 77.2507] },
+      { name: "Chandni Chowk", desc: "Ride a rickshaw through chaotic markets packed with spices and sweets.", icon: "🌶️", coordinates: [28.6608, 77.2274] },
+      { name: "India Gate", desc: "Walk down the ceremonial boulevard to Delhi's iconic war memorial arch.", icon: "🇮🇳", coordinates: [28.6129, 77.2295] }
     ],
     packing: [
       "Modest, loose clothing covering limbs (scarf is helpful for temple entry)",
@@ -525,6 +534,7 @@ const destinationsData = {
   },
   bali: {
     name: "Bali",
+    coordinates: [-8.4095, 115.1889],
     currencyCode: "IDR",
     exchangeRate: 16300,
     region: "Asia",
@@ -536,10 +546,10 @@ const destinationsData = {
     currency: "Indonesian Rupiah (Rp)",
     language: "Balinese, Indonesian & English",
     highlights: [
-      { name: "Ubud Rice Terraces", desc: "Walk through the lush green steps of Tegallalang Rice Paddies.", icon: "🌾" },
-      { name: "Uluwatu Cliff Temple", desc: "Watch a traditional Kecak fire dance on a cliff overlooking the ocean.", icon: "🌅" },
-      { name: "Tanah Lot Temple", desc: "Photograph the iconic offshore pilgrimage temple resting on a sea rock.", icon: "⛩️" },
-      { name: "Sacred Monkey Forest", desc: "Wander through a jungle sanctuary home to hundreds of playful macaques.", icon: "🐒" }
+      { name: "Ubud Rice Terraces", desc: "Walk through the lush green steps of Tegallalang Rice Paddies.", icon: "🌾", coordinates: [-8.4354, 115.2790] },
+      { name: "Uluwatu Cliff Temple", desc: "Watch a traditional Kecak fire dance on a cliff overlooking the ocean.", icon: "🌅", coordinates: [-8.8291, 115.0849] },
+      { name: "Tanah Lot Temple", desc: "Photograph the iconic offshore pilgrimage temple resting on a sea rock.", icon: "⛩️", coordinates: [-8.6212, 115.0868] },
+      { name: "Sacred Monkey Forest", desc: "Wander through a jungle sanctuary home to hundreds of playful macaques.", icon: "🐒", coordinates: [-8.5188, 115.2585] }
     ],
     packing: [
       "Swimwear and beach cover-ups",
@@ -583,6 +593,7 @@ const destinationsData = {
   },
   newyork: {
     name: "New York",
+    coordinates: [40.7128, -74.0060],
     currencyCode: "USD",
     exchangeRate: 1.0,
     region: "America",
@@ -594,10 +605,10 @@ const destinationsData = {
     currency: "US Dollar ($)",
     language: "English",
     highlights: [
-      { name: "Statue of Liberty", desc: "Take a ferry to Liberty Island to view America's symbol of freedom.", icon: "🗽" },
-      { name: "Central Park", desc: "Explore 843 acres of lawns, lakes, and pathways in the heart of Manhattan.", icon: "🌳" },
-      { name: "Times Square & Broadway", desc: "Experience the glowing neon billboard lights and watch a theater show.", icon: "🎭" },
-      { name: "Empire State Building", desc: "Climb to the 86th-floor observatory deck of New York's ultimate landmark skyscraper.", icon: "🏢" }
+      { name: "Statue of Liberty", desc: "Take a ferry to Liberty Island to view America's symbol of freedom.", icon: "🗽", coordinates: [40.6892, -74.0445] },
+      { name: "Central Park", desc: "Explore 843 acres of lawns, lakes, and pathways in the heart of Manhattan.", icon: "🌳", coordinates: [40.7829, -73.9654] },
+      { name: "Times Square & Broadway", desc: "Experience the glowing neon billboard lights and watch a theater show.", icon: "🎭", coordinates: [40.7580, -73.9855] },
+      { name: "Empire State Building", desc: "Climb to the 86th-floor observatory deck of New York's ultimate landmark skyscraper.", icon: "🏢", coordinates: [40.7484, -73.9857] }
     ],
     packing: [
       "Very comfortable walking shoes (NYC requires miles of walking daily)",
@@ -641,6 +652,7 @@ const destinationsData = {
   },
   sanfrancisco: {
     name: "San Francisco",
+    coordinates: [37.7749, -122.4194],
     currencyCode: "USD",
     exchangeRate: 1.0,
     region: "America",
@@ -652,10 +664,10 @@ const destinationsData = {
     currency: "US Dollar ($)",
     language: "English",
     highlights: [
-      { name: "Golden Gate Bridge", desc: "Walk, bike, or drive across the world's most photographed orange suspension bridge.", icon: "🌁" },
-      { name: "Alcatraz Island", desc: "Tour the infamous federal penitentiary that once held Al Capone.", icon: "⚓" },
-      { name: "Fisherman's Wharf & Pier 39", desc: "See the barking sea lions and eat fresh sourdough clam chowder bowls.", icon: "🦀" },
-      { name: "Cable Cars", desc: "Hang off the side of San Francisco's historic moving landmark cable cars.", icon: "🚃" }
+      { name: "Golden Gate Bridge", desc: "Walk, bike, or drive across the world's most photographed orange suspension bridge.", icon: "🌁", coordinates: [37.8199, -122.4783] },
+      { name: "Alcatraz Island", desc: "Tour the infamous federal penitentiary that once held Al Capone.", icon: "⚓", coordinates: [37.8270, -122.4230] },
+      { name: "Fisherman's Wharf & Pier 39", desc: "See the barking sea lions and eat fresh sourdough clam chowder bowls.", icon: "🦀", coordinates: [37.8080, -122.4177] },
+      { name: "Cable Cars", desc: "Hang off the side of San Francisco's historic moving landmark cable cars.", icon: "🚃", coordinates: [37.7849, -122.4082] }
     ],
     packing: [
       "Windbreaker or warm layers (SF weather is famously windy and cold, even in summer)",
@@ -699,21 +711,22 @@ const destinationsData = {
   },
   lasvegas: {
     name: "Las Vegas",
+    coordinates: [36.1716, -115.1398],
     currencyCode: "USD",
     exchangeRate: 1.0,
     region: "America",
     tagline: "The Dazzling Oasis of Neon Lights, Casinos, and Grand Shows",
     heroImage: "lasvegas_hd.jpg",
-    description: "Las Vegas, in Nevada’s Mojave Desert, is a resort city famed for its vibrant nightlife, centered around 24-hour casinos and other entertainment options. Its main street and focal point is the Strip, just over 4 miles long. This boulevard is home to themed hotels with elaborate displays such as fountains synchronized to music as well as replicas of an Egyptian pyramid, the Venetian Grand Canal, and the Eiffel Tower.",
+    description: "Las Vegas, in Nevada’s Mojave Desert, is a resort city famed for its vibrant nightlife, centered around 24-hour casinos and other entertainment options. Its main street and focal point is the Strip, just over 4 miles long. This boulevard is home to themed hotels with holidays displays such as fountains synchronized to music as well as replicas of an Egyptian pyramid, the Venetian Grand Canal, and the Eiffel Tower.",
     duration: "2-3 Days",
     bestTime: "March to May & September to November (Avoid extreme summer heat)",
     currency: "US Dollar ($)",
     language: "English",
     highlights: [
-      { name: "The Las Vegas Strip", desc: "Walk past the massive themed resort hotels, casinos, and flashing lights.", icon: "🎰" },
-      { name: "Bellagio Fountains", desc: "Watch the spectacular synchronized water, light, and music show.", icon: "⛲" },
-      { name: "High Roller", desc: "Ride the massive 550-foot observation wheel for views of the entire valley.", icon: "🎡" },
-      { name: "Fremont Street Experience", desc: "See the historic downtown neon signs under a massive LED screen canopy.", icon: "✨" }
+      { name: "The Las Vegas Strip", desc: "Walk past the massive themed resort hotels, casinos, and flashing lights.", icon: "🎰", coordinates: [36.1147, -115.1728] },
+      { name: "Bellagio Fountains", desc: "Watch the spectacular synchronized water, light, and music show.", icon: "⛲", coordinates: [36.1126, -115.1767] },
+      { name: "High Roller", desc: "Ride the massive 550-foot observation wheel for views of the entire valley.", icon: "🎡", coordinates: [36.1174, -115.1681] },
+      { name: "Fremont Street Experience", desc: "See the historic downtown neon signs under a massive LED screen canopy.", icon: "✨", coordinates: [36.1699, -115.1429] }
     ],
     packing: [
       "Comfortable shoes for walking (resorts are massive and spaced far apart)",
@@ -757,6 +770,7 @@ const destinationsData = {
   },
   washington: {
     name: "Washington, D.C.",
+    coordinates: [38.9072, -77.0369],
     currencyCode: "USD",
     exchangeRate: 1.0,
     region: "America",
@@ -768,10 +782,10 @@ const destinationsData = {
     currency: "US Dollar ($)",
     language: "English",
     highlights: [
-      { name: "The Smithsonian Museums", desc: "Explore the world's largest museum complex (completely free admission).", icon: "🏛️" },
-      { name: "Lincoln Memorial & Reflecting Pool", desc: "Stand where Martin Luther King Jr. delivered his 'I Have a Dream' speech.", icon: "⛲" },
-      { name: "The White House & US Capitol", desc: "Photograph the centers of American political power.", icon: "🏛️" },
-      { name: "National Mall", desc: "Walk the grand parkway linking the Washington Monument to the Capitol.", icon: "🌳" }
+      { name: "The Smithsonian Museums", desc: "Explore the world's largest museum complex (completely free admission).", icon: "🏛️", coordinates: [38.8888, -77.0260] },
+      { name: "Lincoln Memorial & Reflecting Pool", desc: "Stand where Martin Luther King Jr. delivered his 'I Have a Dream' speech.", icon: "⛲", coordinates: [38.8893, -77.0502] },
+      { name: "The White House & US Capitol", desc: "Photograph the centers of American political power.", icon: "🏛️", coordinates: [38.8977, -77.0365] },
+      { name: "National Mall", desc: "Walk the grand parkway linking the Washington Monument to the Capitol.", icon: "🌳", coordinates: [38.8896, -77.0230] }
     ],
     packing: [
       "Excellent walking shoes (the National Mall is over 2 miles long)",
@@ -815,6 +829,7 @@ const destinationsData = {
   },
   hawaii: {
     name: "Hawaii",
+    coordinates: [21.3069, -157.8583],
     currencyCode: "USD",
     exchangeRate: 1.0,
     region: "America",
@@ -826,10 +841,10 @@ const destinationsData = {
     currency: "US Dollar ($)",
     language: "English & Hawaiian",
     highlights: [
-      { name: "Waikiki Beach", desc: "Surf, swim, and sunbathe on Honolulu's most famous white sand shoreline.", icon: "🏄" },
-      { name: "Pearl Harbor National Memorial", desc: "Visit the USS Arizona Memorial to learn about the history of WWII.", icon: "⚓" },
-      { name: "Diamond Head State Monument", desc: "Hike up a volcanic tuff cone crater for views over Honolulu.", icon: "🌋" },
-      { name: "Hanauma Bay", desc: "Snorkel in a protected volcanic crater teeming with colorful marine life.", icon: "🐠" }
+      { name: "Waikiki Beach", desc: "Surf, swim, and sunbathe on Honolulu's most famous white sand shoreline.", icon: "🏄", coordinates: [21.2758, -157.8242] },
+      { name: "Pearl Harbor National Memorial", desc: "Visit the USS Arizona Memorial to learn about the history of WWII.", icon: "⚓", coordinates: [21.3650, -157.9472] },
+      { name: "Diamond Head State Monument", desc: "Hike up a volcanic tuff cone crater for views over Honolulu.", icon: "🌋", coordinates: [21.2620, -157.8062] },
+      { name: "Hanauma Bay", desc: "Snorkel in a protected volcanic crater teeming with colorful marine life.", icon: "🐠", coordinates: [21.2690, -157.6938] }
     ],
     packing: [
       "Reef-safe sunscreen (mandatory by Hawaii law to protect coral reefs)",
