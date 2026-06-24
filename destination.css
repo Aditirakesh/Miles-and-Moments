@@ -550,6 +550,7 @@ body.dark-theme .tab-btn.active {
 }
 .converter-input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .converter-swap-container {

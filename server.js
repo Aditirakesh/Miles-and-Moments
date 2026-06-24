@@ -32,6 +32,58 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'new1.html'));
 });
 
+// =========================================================================
+// Server-Sent Events (SSE) - Real-Time Admin Notifications
+// =========================================================================
+
+// Array to hold connected admin SSE clients
+const sseClients = [];
+
+/**
+ * Broadcasts an event to all connected admin SSE clients
+ * @param {string} eventType - The event name (e.g. 'new_inquiry', 'new_subscriber')
+ * @param {object} payload - The data to send
+ */
+function broadcastToAdmins(eventType, payload) {
+    const data = JSON.stringify({ type: eventType, ...payload });
+    sseClients.forEach(client => {
+        client.write(`event: ${eventType}\n`);
+        client.write(`data: ${data}\n\n`);
+    });
+}
+
+/**
+ * API Endpoint: GET /api/admin/events
+ * SSE stream that pushes real-time notifications to the admin dashboard
+ */
+app.get('/api/admin/events', (req, res) => {
+    // Verify admin session before establishing SSE connection
+    if (!req.session || !req.session.user || req.session.user.role !== 'admin') {
+        return res.status(403).json({ success: false, message: 'Unauthorized.' });
+    }
+
+    // Set SSE headers
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no'); // Disable buffering for Nginx proxies
+    res.flushHeaders();
+
+    // Send initial heartbeat so the client knows the connection is alive
+    res.write(`event: connected\ndata: ${JSON.stringify({ message: 'SSE connection established' })}\n\n`);
+
+    // Register this client
+    sseClients.push(res);
+    console.log(`📡 Admin SSE client connected. Total active: ${sseClients.length}`);
+
+    // Remove client on disconnect
+    req.on('close', () => {
+        const index = sseClients.indexOf(res);
+        if (index !== -1) sseClients.splice(index, 1);
+        console.log(`📡 Admin SSE client disconnected. Total active: ${sseClients.length}`);
+    });
+});
+
 /**
  * API Endpoint: POST /api/subscribe
  * Registers email addresses for the travel newsletter on Supabase
@@ -60,6 +112,13 @@ app.post('/api/subscribe', (req, res) => {
         }
         
         console.log(`✉️ New newsletter subscriber added: ${email}`);
+
+        // Broadcast real-time notification to admin dashboard
+        broadcastToAdmins('new_subscriber', {
+            email: email.trim().toLowerCase(),
+            timestamp: new Date().toISOString()
+        });
+
         return res.status(201).json({ 
             success: true, 
             message: 'Thank you for subscribing! Your email has been added to our list.' 
@@ -92,6 +151,15 @@ app.post('/api/inquiry', (req, res) => {
         }
 
         console.log(`📝 New travel inquiry logged for package "${inquiry_type}" by ${name} (${email})`);
+
+        // Broadcast real-time notification to admin dashboard
+        broadcastToAdmins('new_inquiry', {
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            inquiry_type: inquiry_type,
+            timestamp: new Date().toISOString()
+        });
+
         return res.status(201).json({ 
             success: true, 
             message: 'Inquiry received! Our travel planning team has logged your query.' 

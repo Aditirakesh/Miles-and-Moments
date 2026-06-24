@@ -258,6 +258,138 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Real-Time Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 380px;
+        }
+
+        .toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px 20px;
+            border-radius: 14px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            animation: toastSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), #F59E0B);
+            animation: toastTimer 5s linear forwards;
+        }
+
+        @keyframes toastTimer {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        .toast.toast-exit {
+            animation: toastSlideOut 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        @keyframes toastSlideIn {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes toastSlideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(120%); opacity: 0; }
+        }
+
+        .toast-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .toast-body {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--heading-color);
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 0.82rem;
+            color: var(--text-dark);
+            opacity: 0.75;
+            line-height: 1.4;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            opacity: 0.4;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: opacity 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .toast-close:hover {
+            opacity: 1;
+        }
+
+        /* SSE Connection Status Indicator */
+        .sse-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-title);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            opacity: 0.6;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--light-bg);
+        }
+
+        .sse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #9CA3AF;
+            transition: background-color 0.3s ease;
+        }
+
+        .sse-dot.connected {
+            background-color: #10B981;
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 6px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.8); }
+        }
     </style>
 </head>
 
@@ -294,6 +426,10 @@
             <div class="admin-title">
                 <h1>Admin Control Center</h1>
                 <p>Monitor package inquiries and mailing list subscribers in real-time.</p>
+            </div>
+            <div class="sse-status" id="sse-status-badge">
+                <span class="sse-dot" id="sse-dot"></span>
+                <span id="sse-label">Connecting...</span>
             </div>
         </div>
 
@@ -703,6 +839,113 @@
                 });
             }
         });
+
+        // =============================================================
+        // Server-Sent Events (SSE) - Real-Time Notification System
+        // =============================================================
+
+        const toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container';
+        document.body.appendChild(toastContainer);
+
+        const typeMapDisplay = {
+            general: 'General Query',
+            explorer: 'Explorer Plan',
+            wanderlust: 'Wanderlust Premium',
+            nomad: 'Nomad Elite',
+            licensing: 'Media Licensing',
+            partnership: 'Brand Partnership'
+        };
+
+        function showToast(icon, title, message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <span class="toast-icon">${icon}</span>
+                <div class="toast-body">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="dismissToast(this)">✕</button>
+            `;
+            toastContainer.appendChild(toast);
+
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.classList.add('toast-exit');
+                    setTimeout(() => toast.remove(), 400);
+                }
+            }, 5000);
+
+            // Play a subtle notification sound effect using Web Audio API
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.frequency.value = 880;
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + 0.3);
+            } catch(e) { /* Audio not supported, silently skip */ }
+        }
+
+        function dismissToast(btn) {
+            const toast = btn.closest('.toast');
+            if (toast) {
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 400);
+            }
+        }
+
+        function initSSE() {
+            const dot = document.getElementById('sse-dot');
+            const label = document.getElementById('sse-label');
+
+            const evtSource = new EventSource('/api/admin/events');
+
+            evtSource.addEventListener('connected', (e) => {
+                dot.classList.add('connected');
+                label.textContent = 'Live';
+                console.log('📡 SSE connected:', JSON.parse(e.data));
+            });
+
+            evtSource.addEventListener('new_inquiry', (e) => {
+                const data = JSON.parse(e.data);
+                const pkgName = typeMapDisplay[data.inquiry_type] || data.inquiry_type || 'General';
+                showToast(
+                    '📝',
+                    'New Tour Inquiry',
+                    `<strong>${data.name}</strong> submitted a <strong>${pkgName}</strong> inquiry.`
+                );
+                // Refresh the data tables and charts
+                fetchAdminData();
+            });
+
+            evtSource.addEventListener('new_subscriber', (e) => {
+                const data = JSON.parse(e.data);
+                showToast(
+                    '✉️',
+                    'New Newsletter Subscriber',
+                    `<strong>${data.email}</strong> just joined the mailing list!`
+                );
+                // Refresh the data tables and charts
+                fetchAdminData();
+            });
+
+            evtSource.onerror = () => {
+                dot.classList.remove('connected');
+                label.textContent = 'Reconnecting...';
+                console.warn('📡 SSE connection lost. Browser will auto-reconnect.');
+            };
+        }
+
+        // Start SSE connection when the page loads
+        document.addEventListener('DOMContentLoaded', initSSE);
     </script>
 </body>
 
