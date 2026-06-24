@@ -823,21 +823,24 @@
             return String(string).replace(/[&<>"']/g, function (m) { return map[m]; });
         }
 
-        // Listen for theme toggle clicks to redraw charts with updated CSS variables
+        // Listen for theme toggle clicks or custom theme change events to redraw charts with updated CSS variables
         document.addEventListener('DOMContentLoaded', () => {
-            const themeToggleBtn = document.getElementById('theme-toggle');
+            const handleThemeChange = () => {
+                setTimeout(() => {
+                    if (typeof latestInquiries !== 'undefined' && latestInquiries && latestInquiries.length > 0) {
+                        renderPackagesChart(latestInquiries);
+                    }
+                    if (typeof latestSubscribers !== 'undefined' && latestSubscribers && latestSubscribers.length > 0) {
+                        renderSignupsChart(latestSubscribers);
+                    }
+                }, 150);
+            };
+
+            const themeToggleBtn = document.getElementById('theme-toggle') || document.getElementById('theme-dropdown-btn');
             if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    setTimeout(() => {
-                        if (latestInquiries && latestInquiries.length > 0) {
-                            renderPackagesChart(latestInquiries);
-                        }
-                        if (latestSubscribers && latestSubscribers.length > 0) {
-                            renderSignupsChart(latestSubscribers);
-                        }
-                    }, 150);
-                });
+                themeToggleBtn.addEventListener('click', handleThemeChange);
             }
+            document.addEventListener('themeChanged', handleThemeChange);
         });
 
         // =============================================================

@@ -37,18 +37,27 @@
 
     <!-- Main Content Container -->
     <main class="division">
-        <!-- Hero section with background slideshow -->
-        <div class="heading">
-            <div class="slideshow-container">
+        <!-- Hero section with background video & slideshow -->
+        <div class="heading" id="hero-section">
+            <div class="video-container" id="video-bg-container">
+                <video autoplay loop muted playsinline id="hero-video" class="hero-video" poster="back_paris.jpg">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-beautiful-island-resort-in-maldives-41865-large.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="slideshow-container" id="parallax-bg">
                 <div class="slide active" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_paris.jpg');"></div> <!-- Paris -->
                 <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_japan.avif');"></div> <!-- Tokyo -->
                 <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_italy.avif');"></div> <!-- Rome -->
                 <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_bali.avif');"></div> <!-- Bali -->
                 <div class="slide" style="background-image: linear-gradient(rgba(11, 19, 43, 0.45), rgba(11, 19, 43, 0.65)), url('back_london.avif');"></div> <!-- London -->
             </div>
-            <div class="hero-content">
-                <h1>Miles & Moments</h1>
+            <!-- Floating particles layer for depth -->
+            <div class="hero-particles" id="hero-particles"></div>
+            <div class="hero-content" id="hero-content">
+                <h1 class="kinetic-title" id="kinetic-title">Miles & Moments</h1>
                 <p1 class="typing-text">Journey Beyond Boundaries - Explore, Dream, Discover</p1>
+                <a href="new.html" class="hero-cta-btn">Start Exploring ✈️</a>
             </div>
         </div>
         
@@ -156,22 +165,162 @@
         </div>
     </footer>
     
-    <!-- Hero Background Slideshow Script -->
+    <!-- Hero Parallax, Particles & Slideshow Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('.slide');
-            if (slides.length === 0) return;
-            
-            let currentSlide = 0;
-            const slideInterval = 2500; // 2.5 seconds display duration
-            
-            function nextSlide() {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
+            // === Video Background Detect ===
+            const video = document.getElementById('hero-video');
+            const heroSection = document.getElementById('hero-section');
+            if (video && heroSection) {
+                video.addEventListener('playing', () => {
+                    heroSection.classList.add('video-playing');
+                });
             }
-            
-            setInterval(nextSlide, slideInterval);
+
+            // === Slideshow ===
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length > 0) {
+                let currentSlide = 0;
+                function nextSlide() {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }
+                setInterval(nextSlide, 2500);
+            }
+
+            // === Mouse Parallax on Hero ===
+            const hero = document.getElementById('hero-section');
+            const parallaxBg = document.getElementById('parallax-bg');
+            const videoBg = document.getElementById('video-bg-container');
+            const heroContent = document.getElementById('hero-content');
+
+            if (hero && heroContent) {
+                hero.addEventListener('mousemove', (e) => {
+                    const rect = hero.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;  // -0.5 to 0.5
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+                    // Background layers move opposite to cursor (depth illusion)
+                    if (parallaxBg) {
+                        parallaxBg.style.transform = `translate(${-x * 20}px, ${-y * 15}px) scale(1.08)`;
+                    }
+                    if (videoBg) {
+                        videoBg.style.transform = `translate(${-x * 20}px, ${-y * 15}px) scale(1.08)`;
+                    }
+
+                    // Text layer moves with cursor (foreground)
+                    heroContent.style.transform = `translate(${x * 12}px, ${y * 8}px)`;
+                });
+
+                hero.addEventListener('mouseleave', () => {
+                    if (parallaxBg) parallaxBg.style.transform = 'translate(0, 0) scale(1.05)';
+                    if (videoBg) videoBg.style.transform = 'translate(0, 0) scale(1.05)';
+                    heroContent.style.transform = 'translate(0, 0)';
+                });
+            }
+
+            // === Kinetic Typography ===
+            const titleEl = document.getElementById('kinetic-title');
+            if (titleEl && hero) {
+                const text = titleEl.textContent;
+                titleEl.textContent = '';
+                [...text].forEach(char => {
+                    const span = document.createElement('span');
+                    span.textContent = char === ' ' ? '\u00A0' : char;
+                    span.className = 'kinetic-char';
+                    titleEl.appendChild(span);
+                });
+
+                hero.addEventListener('mousemove', (e) => {
+                    const chars = titleEl.querySelectorAll('.kinetic-char');
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+
+                    chars.forEach(char => {
+                        const rect = char.getBoundingClientRect();
+                        const charX = rect.left + rect.width / 2;
+                        const charY = rect.top + rect.height / 2;
+
+                        const diffX = mouseX - charX;
+                        const diffY = mouseY - charY;
+                        const dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                        const maxDist = 180;
+                        if (dist < maxDist) {
+                            const force = (maxDist - dist) / maxDist;
+                            const offsetX = (diffX / dist) * -15 * force;
+                            const offsetY = (diffY / dist) * -15 * force;
+                            char.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${1 + 0.15 * force}) rotate(${offsetX * 0.4}deg)`;
+                            char.style.color = `var(--accent-color)`;
+                            char.style.textShadow = `0 4px 15px rgba(224, 169, 109, ${0.4 * force})`;
+                        } else {
+                            char.style.transform = '';
+                            char.style.color = '';
+                            char.style.textShadow = '';
+                        }
+                    });
+                });
+
+                hero.addEventListener('mouseleave', () => {
+                    const chars = titleEl.querySelectorAll('.kinetic-char');
+                    chars.forEach(char => {
+                        char.style.transform = '';
+                        char.style.color = '';
+                        char.style.textShadow = '';
+                    });
+                });
+            }
+
+            // === Bento Cards 3D Tilt & Glow ===
+            const bentoCards = document.querySelectorAll('.bento-card');
+            bentoCards.forEach(card => {
+                let glow = card.querySelector('.card-glow');
+                if (!glow) {
+                    glow = document.createElement('div');
+                    glow.className = 'card-glow';
+                    card.prepend(glow);
+                }
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = -(y - centerY) / centerY * 8; // Max 8 degrees
+                    const rotateY = (x - centerX) / centerX * 8;
+
+                    card.style.setProperty('--glow-x', `${(x / rect.width) * 100}%`);
+                    card.style.setProperty('--glow-y', `${(y / rect.height) * 100}%`);
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+                    card.style.boxShadow = `0 15px 35px rgba(224, 169, 109, 0.15), var(--shadow-premium)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                    card.style.boxShadow = '';
+                });
+            });
+
+            // === Floating Particles ===
+            const particlesContainer = document.getElementById('hero-particles');
+            if (particlesContainer) {
+                for (let i = 0; i < 25; i++) {
+                    const particle = document.createElement('span');
+                    particle.className = 'particle';
+                    const size = Math.random() * 4 + 2;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (Math.random() * 8 + 6) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
         });
     </script>
 </body>

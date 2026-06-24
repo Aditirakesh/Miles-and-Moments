@@ -6,6 +6,8 @@
     <title>Travel Vibe Quiz | Miles & Moments</title>
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="quiz.css">
+    <!-- Canvas-Confetti CDN integration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="theme.js" defer></script>
     <script src="destinations-data.js" defer></script>
 </head>
@@ -269,6 +271,25 @@
                 }, 300);
             }
 
+            // City Price lookup
+            const cityPrices = {
+                paris: '$599',
+                rome: '$499',
+                vienna: '$399',
+                amsterdam: '$449',
+                london: '$549',
+                tokyo: '$799',
+                seoul: '$699',
+                hongkong: '$649',
+                delhi: '$299',
+                bali: '$349',
+                newyork: '$599',
+                sanfrancisco: '$549',
+                lasvegas: '$499',
+                washington: '$479',
+                hawaii: '$699'
+            };
+
             function showResults() {
                 quizFlow.style.display = 'none';
                 resultScreen.style.display = 'block';
@@ -295,6 +316,37 @@
                 const top2 = sortedCities.slice(0, 2);
                 
                 resultsGrid.innerHTML = '';
+
+                // Fire custom region confetti for top match
+                if (top2.length > 0 && typeof confetti === 'function') {
+                    const topCityData = destinationsData[top2[0]];
+                    if (topCityData) {
+                        const region = topCityData.region.toLowerCase();
+                        let colors = ['#E0A96D', '#1A2F50', '#ffffff']; // Default: Gold, Navy, White
+                        
+                        if (region.includes('asia')) {
+                            colors = ['#F43F5E', '#F59E0B', '#ffffff', '#D97706']; // Cherry pink, Gold, White, Bronze
+                        } else if (region.includes('europe')) {
+                            colors = ['#E0A96D', '#1A2F50', '#ffffff', '#4F46E5']; // Gold, Navy, White, Violet
+                        } else if (region.includes('america')) {
+                            colors = ['#2563EB', '#F97316', '#ffffff', '#EF4444']; // Blue, Orange, White, Red
+                        }
+
+                        // Celebrate matching completion with dual confetti bursts
+                        confetti({
+                            particleCount: 100,
+                            spread: 65,
+                            origin: { x: 0.2, y: 0.65 },
+                            colors: colors
+                        });
+                        confetti({
+                            particleCount: 100,
+                            spread: 65,
+                            origin: { x: 0.8, y: 0.65 },
+                            colors: colors
+                        });
+                    }
+                }
                 
                 top2.forEach(cityKey => {
                     const cityData = destinationsData[cityKey];
@@ -305,6 +357,7 @@
                     card.innerHTML = `
                         <div class="result-card-image-box" style="background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.75)), url('${cityData.heroImage}');">
                             <span class="match-badge">Match Choice</span>
+                            <div class="card-price-tag">${cityPrices[cityKey.toLowerCase()] || '$499'} / person</div>
                         </div>
                         <div class="result-card-content">
                             <h3>${cityData.name}</h3>
@@ -313,9 +366,40 @@
                                 <span class="tag">⏱️ ${cityData.duration}</span>
                             </div>
                             <p>${cityData.tagline}</p>
-                            <a href="destination.html?city=${cityKey}" class="btn-quiz">Explore Guide</a>
+                            <div class="card-actions">
+                                <a href="destination.html?city=${cityKey}" class="btn-quiz">Explore Guide</a>
+                                <a href="contact.html?package=wanderlust&destination=${cityKey}" class="book-now-btn">
+                                    Book Now
+                                    <span class="btn-lottie-container">
+                                        <svg class="btn-airplane-svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#3b82f6" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+                                    </span>
+                                </a>
+                            </div>
                         </div>
                     `;
+
+                    // Bind confetti click trigger
+                    const bookBtn = card.querySelector('.book-now-btn');
+                    if (bookBtn) {
+                        bookBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            if (typeof confetti === 'function') {
+                                confetti({
+                                    particleCount: 150,
+                                    spread: 80,
+                                    origin: { y: 0.6 },
+                                    colors: ['#E0A96D', '#1A2F50', '#ffffff', '#F59E0B']
+                                });
+                            }
+
+                            setTimeout(() => {
+                                window.location.href = bookBtn.href;
+                            }, 800);
+                        });
+                    }
+
                     resultsGrid.appendChild(card);
                 });
             }

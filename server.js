@@ -24,6 +24,79 @@ app.use(session({
     }
 }));
 
+// =========================================================================
+// API Rate Limiting & Spam Prevention (Backend Security)
+// =========================================================================
+
+// In-memory store: IP -> Array of timestamps
+const rateLimitMap = new Map();
+
+// Background task running every 5 minutes to clean up stale entries (prevents memory leaks)
+setInterval(() => {
+    const now = Date.now();
+    const cleanupWindowMs = 10 * 60 * 1000; // 10 minutes
+    for (const [ip, timestamps] of rateLimitMap.entries()) {
+        const validTimestamps = timestamps.filter(t => now - t < cleanupWindowMs);
+        if (validTimestamps.length === 0) {
+            rateLimitMap.delete(ip);
+        } else {
+            rateLimitMap.set(ip, validTimestamps);
+        }
+    }
+}, 5 * 60 * 1000);
+
+/**
+ * Express Rate Limiting Middleware Factory
+ * @param {number} maxRequests - Max requests allowed in the timeframe
+ * @param {number} windowMinutes - Timeframe window in minutes
+ */
+function createRateLimiter(maxRequests, windowMinutes) {
+    const windowMs = windowMinutes * 60 * 1000;
+    return (req, res, next) => {
+        // Retrieve client IP address
+        const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        const now = Date.now();
+
+        if (!rateLimitMap.has(ip)) {
+            rateLimitMap.set(ip, []);
+        }
+
+        const timestamps = rateLimitMap.get(ip);
+        
+        // Remove timestamps older than the window
+        const activeRequests = timestamps.filter(t => now - t < windowMs);
+
+        if (activeRequests.length >= maxRequests) {
+            const oldestRequest = activeRequests[0];
+            const resetTimeMs = oldestRequest + windowMs;
+            const secondsLeft = Math.ceil((resetTimeMs - now) / 1000);
+
+            // Set standardized rate limiting headers
+            res.setHeader('Retry-After', secondsLeft);
+            res.setHeader('X-RateLimit-Limit', maxRequests);
+            res.setHeader('X-RateLimit-Remaining', 0);
+            res.setHeader('X-RateLimit-Reset', Math.ceil(resetTimeMs / 1000));
+
+            return res.status(429).json({
+                success: false,
+                message: `Too many submissions. Please wait ${secondsLeft} seconds before trying again.`
+            });
+        }
+
+        // Add current timestamp
+        activeRequests.push(now);
+        rateLimitMap.set(ip, activeRequests);
+
+        // Set tracking headers
+        res.setHeader('X-RateLimit-Limit', maxRequests);
+        res.setHeader('X-RateLimit-Remaining', maxRequests - activeRequests.length);
+        res.setHeader('X-RateLimit-Reset', Math.ceil((now + windowMs) / 1000));
+
+        next();
+    };
+}
+
+
 // Serve all static files from the root directory (HTML, CSS, JS, Images)
 app.use(express.static(path.join(__dirname)));
 
@@ -88,7 +161,7 @@ app.get('/api/admin/events', (req, res) => {
  * API Endpoint: POST /api/subscribe
  * Registers email addresses for the travel newsletter on Supabase
  */
-app.post('/api/subscribe', (req, res) => {
+app.post('/api/subscribe', createRateLimiter(3, 5), (req, res) => {
     const { email } = req.body;
 
     if (!email) {
@@ -130,7 +203,7 @@ app.post('/api/subscribe', (req, res) => {
  * API Endpoint: POST /api/inquiry
  * Logs tour and travel package inquiries from the contact form
  */
-app.post('/api/inquiry', (req, res) => {
+app.post('/api/inquiry', createRateLimiter(3, 5), (req, res) => {
     const { name, email, inquiry_type, message } = req.body;
 
     if (!name || !email || !inquiry_type || !message) {

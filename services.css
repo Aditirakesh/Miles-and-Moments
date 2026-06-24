@@ -333,3 +333,66 @@
         transform: translateY(-10px);
     }
 }
+
+/* ============================================================ */
+/* MICRO-DELIGHTS: Services Button Lottie Flight Animations      */
+/* ============================================================ */
+.btn-package {
+    position: relative;
+    overflow: visible; /* Let the plane orbit outside button bounds */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-package .btn-lottie-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 32px;
+    height: 32px;
+    margin-left: -16px;
+    margin-top: -16px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 10;
+    
+    /* Perfect elliptical offset-path orbit around the button */
+    offset-path: path('M 0,22 a 85 36 0 1 0 0,-0.1 Z');
+    offset-rotate: auto -90deg; /* Orient plane nose forward along tangent */
+}
+
+.btn-package:hover .btn-lottie-container {
+    animation: flightPathPackage 1.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes flightPathPackage {
+    0% {
+        offset-distance: 0%;
+        transform: scale(0);
+        opacity: 0;
+    }
+    12% {
+        offset-distance: 0%;
+        transform: scale(1.3); /* Scale up to be very visible */
+        opacity: 1;
+    }
+    88% {
+        offset-distance: 100%;
+        transform: scale(1.3);
+        opacity: 1;
+    }
+    100% {
+        offset-distance: 100%;
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.btn-airplane-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* Soft blue glow drop shadow to make it stand out */
+    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.9)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+}

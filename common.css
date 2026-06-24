@@ -397,6 +397,96 @@ body.dark-theme .theme-toggle-btn .moon-icon {
     display: none;
 }
 
+/* Theme Dropdown Style */
+.theme-dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.theme-dropdown-btn {
+    background-color: var(--header-hover-bg);
+    color: var(--header-text);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-family: var(--font-title);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-subtle);
+}
+
+.theme-dropdown-btn:hover {
+    background-color: var(--header-bg);
+    border-color: var(--accent-color);
+    box-shadow: var(--shadow-medium);
+}
+
+.theme-dropdown-btn .theme-arrow-icon {
+    font-size: 0.65rem;
+    opacity: 0.7;
+    margin-left: 2px;
+    transition: transform 0.3s ease;
+}
+
+.theme-dropdown-btn[aria-expanded="true"] .theme-arrow-icon {
+    transform: rotate(180deg);
+}
+
+.theme-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 140px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    padding: 8px 0;
+    display: none;
+    flex-direction: column;
+    z-index: 1100;
+    animation: dropdownFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.theme-dropdown-menu.show {
+    display: flex;
+}
+
+.theme-dropdown-menu .theme-menu-item {
+    background: none;
+    border: none;
+    width: 100%;
+    font-family: var(--font-title);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    padding: 10px 16px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition-smooth);
+}
+
+.theme-dropdown-menu .theme-menu-item:hover {
+    background-color: var(--header-hover-bg);
+    color: var(--accent-color);
+}
+
+.theme-dropdown-menu .theme-menu-item.active {
+    color: var(--accent-color);
+    font-weight: 600;
+    background-color: rgba(224, 169, 109, 0.1);
+}
+
 /* Mobile Hamburger Menu Trigger */
 .menu-toggle {
     display: none;

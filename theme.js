@@ -33,40 +33,127 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Initializes and handles the light/dark theme toggles
+ * Initializes and handles the light/dark/system theme selection
  */
 function initTheme() {
     const themeToggleBtn = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme');
+    if (!themeToggleBtn) return;
 
-    // Apply the saved theme on load
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-    } else if (currentTheme === 'light') {
-        document.body.classList.remove('dark-theme');
-    } else {
-        // Default to dark mode if user's system preferences match
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-            document.body.classList.add('dark-theme');
-            localStorage.setItem('theme', 'dark');
+    // Create a beautiful custom dropdown to replace the old button
+    const container = document.createElement('div');
+    container.className = 'theme-dropdown';
+    container.id = 'theme-select-container';
+
+    container.innerHTML = `
+        <button class="theme-dropdown-btn" id="theme-dropdown-btn" aria-label="Toggle theme selection" aria-haspopup="true" aria-expanded="false">
+            <span class="theme-btn-icon">☀️</span>
+            <span class="theme-btn-text">Light</span>
+            <span class="theme-arrow-icon">▼</span>
+        </button>
+        <div class="theme-dropdown-menu" id="theme-dropdown-menu">
+            <button class="theme-menu-item" data-value="light">
+                <span class="item-icon">☀️</span> Light
+            </button>
+            <button class="theme-menu-item" data-value="dark">
+                <span class="item-icon">🌙</span> Dark
+            </button>
+            <button class="theme-menu-item" data-value="system">
+                <span class="item-icon">💻</span> System
+            </button>
+        </div>
+    `;
+
+    // Replace the legacy button with the custom dropdown in-place
+    themeToggleBtn.parentNode.replaceChild(container, themeToggleBtn);
+
+    const dropdownBtn = container.querySelector('#theme-dropdown-btn');
+    const dropdownMenu = container.querySelector('#theme-dropdown-menu');
+    const menuItems = container.querySelectorAll('.theme-menu-item');
+
+    // Read stored user preference, fallback to 'system'
+    const currentTheme = localStorage.getItem('theme') || 'system';
+
+    // Media query matching system scheme preference
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function updateDropdownUI(theme) {
+        let icon = '☀️';
+        let text = 'Light';
+        if (theme === 'dark') {
+            icon = '🌙';
+            text = 'Dark';
+        } else if (theme === 'system') {
+            icon = '💻';
+            text = 'System';
         }
-    }
+        if (dropdownBtn.querySelector('.theme-btn-icon')) {
+            dropdownBtn.querySelector('.theme-btn-icon').textContent = icon;
+        }
+        if (dropdownBtn.querySelector('.theme-btn-text')) {
+            dropdownBtn.querySelector('.theme-btn-text').textContent = text;
+        }
 
-    // Toggle button handler
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
-            const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-            
-            // Add a temporary animation to the button
-            themeToggleBtn.style.transform = 'rotate(360deg) scale(0.9)';
-            setTimeout(() => {
-                themeToggleBtn.style.transform = '';
-            }, 300);
+        // Mark active item
+        menuItems.forEach(item => {
+            if (item.getAttribute('data-value') === theme) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
         });
     }
+
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-theme');
+        } else if (theme === 'light') {
+            document.body.classList.remove('dark-theme');
+        } else if (theme === 'system') {
+            if (mediaQuery.matches) {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+        }
+        updateDropdownUI(theme);
+        // Dispatch theme changed event for other scripts (like admin charts)
+        document.dispatchEvent(new Event('themeChanged'));
+    }
+
+    // Apply the initial theme state on page load
+    applyTheme(currentTheme);
+
+    // Toggle dropdown visibility
+    dropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isShown = dropdownMenu.classList.toggle('show');
+        dropdownBtn.setAttribute('aria-expanded', isShown ? 'true' : 'false');
+    });
+
+    // Close dropdown on click outside
+    document.addEventListener('click', () => {
+        dropdownMenu.classList.remove('show');
+        dropdownBtn.setAttribute('aria-expanded', 'false');
+    });
+
+    // Event listeners for items selection
+    menuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const selectedValue = item.getAttribute('data-value');
+            localStorage.setItem('theme', selectedValue);
+            applyTheme(selectedValue);
+            dropdownMenu.classList.remove('show');
+            dropdownBtn.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    // Event listener for OS system preference changes (e.g. night schedule transitions)
+    mediaQuery.addEventListener('change', (e) => {
+        if (localStorage.getItem('theme') === 'system') {
+            applyTheme('system');
+        }
+    });
 }
 
 /**
@@ -192,11 +279,12 @@ function initNewsletter() {
                 body: JSON.stringify({ email: email })
             })
             .then(response => {
-                if (response.status === 409) {
-                    return response.json().then(data => { throw new Error(data.message || 'Already subscribed.') });
-                }
                 if (!response.ok) {
-                    throw new Error('Failed to subscribe. Please try again.');
+                    return response.json().then(data => { 
+                        throw new Error(data.message || 'Failed to subscribe. Please try again.');
+                    }).catch(err => {
+                        throw new Error(err.message || 'Failed to subscribe. Please try again.');
+                    });
                 }
                 return response.json();
             })
@@ -220,6 +308,21 @@ function initNewsletter() {
                     form.style.display = 'none';
                     form.parentNode.appendChild(successMsg);
                 }, 300);
+
+                // Auto-restore newsletter form portal after 3 seconds
+                setTimeout(() => {
+                    successMsg.style.transition = 'opacity 0.3s ease';
+                    successMsg.style.opacity = '0';
+                    setTimeout(() => {
+                        if (successMsg.parentNode) {
+                            successMsg.parentNode.removeChild(successMsg);
+                        }
+                        form.reset();
+                        if (submitBtn) submitBtn.disabled = false;
+                        form.style.display = '';
+                        form.style.opacity = '1';
+                    }, 300);
+                }, 3000);
             })
             .catch(error => {
                 // Re-enable submit button
@@ -234,6 +337,15 @@ function initNewsletter() {
                 errorMsg.style.marginTop = '8px';
                 errorMsg.style.animation = 'fadeIn 0.3s ease forwards';
                 form.appendChild(errorMsg);
+
+                // Auto-clear error after 4 seconds to allow easy retry
+                setTimeout(() => {
+                    errorMsg.style.transition = 'opacity 0.3s ease';
+                    errorMsg.style.opacity = '0';
+                    setTimeout(() => {
+                        if (errorMsg.parentNode) errorMsg.remove();
+                    }, 300);
+                }, 4000);
             });
         });
     });
@@ -389,7 +501,9 @@ function initSmartHeader() {
  */
 function initUserSessionHeader() {
     const headerContainer = document.querySelector('.header-container');
-    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggle = document.getElementById('theme-toggle') || 
+                        document.getElementById('theme-select') || 
+                        document.getElementById('theme-select-container');
     if (!headerContainer || !themeToggle) return;
 
     // Group theme toggle and auth actions in a wrapper to prevent wide flexbox spacing
